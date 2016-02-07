@@ -1,15 +1,5 @@
-;;;; File : cocoa-emacs.el
-;;;; Settings for cocoa emacs
-
-;; add cocoa emacs directory to path
-(add-to-list 'load-path "/Applications/Emacs.app")
-
-;; set cocoa GUI grame size
-(setq initial-frame-alist
-      '((left . 0) (top . 0) (width . 175) (height . 50)))
-
-;; set option key as meta
-(setq mac-option-modifier 'meta)
+;;;; File : gui.el
+;;;; Settings for emacs when using window system
 
 ;; themes
 (defun default-theme-hook ()
@@ -26,6 +16,12 @@
 (defun misterioso-theme-hook ()
   (load-theme 'misterioso t))
 
-(when window-system
+;; osx-specific settings
+(when (memq window-system '(mac ns))
+  (add-to-list 'load-path "/Applications/Emacs.app")
+  (setq mac-option-modifier 'meta))
+
+;; load custom theme after initialization
+(when (display-graphic-p)
   (add-hook 'after-init-hook 'solarized-theme-hook)
-  (set-default-font "Consolas-14"))
+  (setq initial-frame-alist '((left . 0) (top . 0) (width . 184) (height . 52))))

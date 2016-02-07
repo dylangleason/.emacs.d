@@ -3,7 +3,6 @@
 
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("/Users/dylangleason/Documents/src/zisa/src/.*\\.js?\\'" . web-mode))
 
 (defun my-web-mode-hook ()
   (setq web-mode-css-indent-offset 4)

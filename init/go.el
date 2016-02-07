@@ -3,9 +3,14 @@
 
 (require 'go-mode)
 
+(defun load-gopath ()
+  (when (display-graphic-p)
+    (exec-path-from-shell-copy-env "GOPATH")))
+
 (defun my-go-mode-hook ()
+  (load-gopath)
+  (setq indent-tabs-mode t)
   (setq gofmt-command "goimports")
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  (define-key go-mode-map (kbd "C-c C-c") 'comment-or-uncomment-region))
+  (add-hook 'before-save-hook 'gofmt-before-save))
 
 (add-hook 'go-mode-hook 'my-go-mode-hook)
