@@ -2,7 +2,12 @@
 ;;;; emacs shell customizations
 
 (require 'multi-term)
-(setq multi-term-program "/bin/bash")
+
+(let ((zsh  "/bin/zsh")
+      (bash "/bin/bash"))
+  (if (file-exists-p zsh)
+      (setq multi-term-program zsh)
+    (setq multi-termp-program bash)))
 
 ;; set keybindings for multiterm actions
 (global-set-key "\C-ct" 'multi-term)
