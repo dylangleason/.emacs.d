@@ -9,8 +9,8 @@
 
 (defun my-go-mode-hook ()
   (load-gopath)
-  (setq indent-tabs-mode t)
-  (setq gofmt-command "goimports")
+  (setq indent-tabs-mode t
+        gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save))
 
 (add-hook 'go-mode-hook 'my-go-mode-hook)
