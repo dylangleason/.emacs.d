@@ -1,7 +1,9 @@
 ;;;; File: go.el
 ;;;; go-mode configuration file.
 
+(require 'golint)
 (require 'go-mode)
+(require 'go-autocomplete)
 
 (defun load-gopath ()
   (when (display-graphic-p)

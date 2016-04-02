@@ -26,9 +26,8 @@
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key "\C-c\C-c"  'comment-or-uncomment-region)
 
-;; make linum-mode and font-lock mode global
+;; make font-lock mode global
 (global-font-lock-mode 1)
-(global-linum-mode 1)
 
 ;; Turn off scroll bars and menus
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
