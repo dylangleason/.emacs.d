@@ -6,7 +6,7 @@
 
 (autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(setq inferior-js-program-command "/usr/local/bin/node --interactive")
+(setq inferior-js-program-command "/usr/local/bin/node")
 (setenv "NODE_NO_READLINE" "1")
 
 (defun remove-tabs ()

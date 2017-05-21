@@ -3,4 +3,6 @@
 
 (require 'neotree)
 (global-set-key "\C-cn" 'neotree-toggle)
-(set-face-foreground neo-file-link-face "#ffffff")
+
+(when (not (display-graphic-p))
+  (set-face-foreground neo-file-link-face "white"))

@@ -1,5 +1,5 @@
 ;;;; File : autocomplete.el
-;;;; configure autocompletion
+;;;; Conigure code autocompletion
 
 (require 'auto-complete-config)
 (add-to-list 'load-path "~/.emacs.d/lisp")
