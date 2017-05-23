@@ -1,6 +1,9 @@
 ;;;; File: neotree.el
 ;;;; neotree configuration for file/director browsing
 
+(unless (package-installed-p 'neotree)
+  (package-install 'neotree))
+
 (require 'neotree)
 (global-set-key "\C-cn" 'neotree-toggle)
 

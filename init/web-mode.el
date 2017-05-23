@@ -1,6 +1,9 @@
 ;;;; File: web-mode.el
 ;;;; web-mode customizations
 
+(unless (package-installed-p 'web-mode)
+  (package-install 'web-mode))
+
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 

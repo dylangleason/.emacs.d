@@ -2,6 +2,11 @@
 ;;;; Elisp, Common Lisp, Clojure and SLIME configurations
 
 ;; paredit for lisp editing
+(unless (package-installed-p 'paredit)
+  (package-install 'paredit))
+
+(require 'paredit)
+
 (defun enable-paredit ()
   (paredit-mode t))
 
@@ -20,10 +25,17 @@
   (slime-setup '(slime-repl slime-asdf slime-fancy slime-banner))
   (add-hook 'slime-mode-hook 'enable-paredit))
 
-;; Clojure mode
+;; Setup Clojure and CIDER
+(unless (package-installed-p 'cider)
+  (package-install 'cider))
+
+(unless (package-installed-p 'clojure-mode)
+  (package-install 'clojure-mode))
+
 (defun my-cider-repl-mode-hook ()
   (setq-local nrepl-hide-special-buffers t)
   (setq-local cider-repl-display-help-banner nil)
+  (enable-paredit)
   (eldoc-mode))
 
 ;; configure cider IDE and nREPL

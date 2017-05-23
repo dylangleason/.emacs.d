@@ -1,6 +1,13 @@
 ;;; File : js.el
 ;;; javascript settings
 
+;; Install javascript packages
+(unless (package-installed-p 'js-comint)
+  (package-install 'js-comint))
+
+(unless (package-installed-p 'js2-mode)
+  (package-install 'js2-mode))
+
 (require 'flycheck)
 (require 'js-comint)
 

@@ -35,17 +35,30 @@
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
+;; init package manager
+(require 'package)
+(add-to-list 'load-path (concat emacs-dir "elpa/"))
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
+(package-initialize)
+
+;; install common packages
+(unless (package-installed-p 'exec-path-from-shell)
+  (package-install 'exec-path-from-shell))
+
+(unless (package-installed-p 'flycheck)
+  (package-install 'flycheck))
+
+;; use flycheck for syntax checking
+(require 'flycheck)
+
 ;; load files in init directory
 (defun load-user-file (file)
   (interactive "f")
   (load-file (expand-file-name file emacs-init-dir)))
 
-(load-user-file "package.el")
-
 (mapc (lambda (file)
-        (when (and (string-match "^\\(.+\.el\\)$" file)
-                   (not (equal "package.el" file)))
+        (when (string-match "^\\(.+\.el\\)$" file)
           (load-user-file file)))
       (directory-files emacs-init-dir))
-
-(require 'flycheck)
