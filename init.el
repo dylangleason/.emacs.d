@@ -37,21 +37,22 @@
 
 ;; init package manager
 (require 'package)
-(add-to-list 'load-path (concat emacs-dir "elpa/"))
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.milkbox.net/packages/"))
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 (package-initialize)
 
-;; install common packages
-(unless (package-installed-p 'exec-path-from-shell)
-  (package-install 'exec-path-from-shell))
+(defun packages-require (&rest packages)
+  "Install and load one or more packages automatically"
+  (mapc (lambda (package)
+          (unless (package-installed-p package)
+            (package-install package))
+          (require package))
+        packages))
 
-(unless (package-installed-p 'flycheck)
-  (package-install 'flycheck))
-
-;; use flycheck for syntax checking
-(require 'flycheck)
+(packages-require
+ 'exec-path-from-shell
+ 'flycheck)
 
 ;; load files in init directory
 (defun load-user-file (file)
@@ -62,3 +63,6 @@
         (when (string-match "^\\(.+\.el\\)$" file)
           (load-user-file file)))
       (directory-files emacs-init-dir))
+
+(add-to-list 'load-path "~/Projects/standup-notes")
+(require 'standup-notes)

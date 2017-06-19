@@ -1,19 +1,10 @@
 ;;;; File: go.el
 ;;;; go-mode configuration file.
 
-;; install go packages
-(unless (package-installed-p 'go-mode)
-  (package-install 'go-mode))
-
-(unless (package-installed-p 'go-autocomplete)
-  (package-install 'go-autocomplete))
-
-(unless (package-installed-p 'flycheck-gometalinter)
-  (package-install 'flycheck-gometalinter))
-
-(require 'go-mode)
-(require 'go-autocomplete)
-(require 'flycheck-gometalinter)
+(packages-require
+ 'go-mode
+ 'go-autocomplete
+ 'flycheck-gometalinter)
 
 (defun load-gopath ()
   (when (display-graphic-p)

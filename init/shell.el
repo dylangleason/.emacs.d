@@ -1,11 +1,7 @@
 ;;;; File: shell.el
 ;;;; emacs shell customizations
 
-;; Install multi-term
-(unless (package-installed-p 'multi-term)
-  (package-install 'multi-term))
-
-(require 'multi-term)
+(packages-require 'multi-term)
 
 ;; Set the default shell to use
 (let ((zsh  "/bin/zsh")

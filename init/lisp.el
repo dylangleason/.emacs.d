@@ -2,10 +2,7 @@
 ;;;; Elisp, Common Lisp, Clojure and SLIME configurations
 
 ;; paredit for lisp editing
-(unless (package-installed-p 'paredit)
-  (package-install 'paredit))
-
-(require 'paredit)
+(packages-require 'paredit)
 
 (defun enable-paredit ()
   (paredit-mode t))
@@ -26,11 +23,9 @@
   (add-hook 'slime-mode-hook 'enable-paredit))
 
 ;; Setup Clojure and CIDER
-(unless (package-installed-p 'cider)
-  (package-install 'cider))
-
-(unless (package-installed-p 'clojure-mode)
-  (package-install 'clojure-mode))
+(packages-require
+ 'cider
+ 'clojure-mode)
 
 (defun my-cider-repl-mode-hook ()
   (setq-local nrepl-hide-special-buffers t)
@@ -39,7 +34,13 @@
   (eldoc-mode))
 
 ;; configure cider IDE and nREPL
-(require 'cider)
 (add-hook 'cider-mode-hook 'eldoc-mode)
 (add-hook 'clojure-mode-hook 'enable-paredit)
 (add-hook 'cider-repl-mode-hook 'my-cider-repl-mode-hook)
+
+(defadvice 4clojure-open-question (around 4clojure-open-question-around)
+  "Start a cider/nREPL connection if one hasn't already been
+  started when opening 4clojure questions"
+  ad-do-it
+  (unless cider-current-clojure-buffer
+    (cider-jack-in)))

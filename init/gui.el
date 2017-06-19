@@ -21,6 +21,5 @@
 
 ;; initialize emacs gui
 (when (display-graphic-p)
-  (global-linum-mode 1)
-  (add-hook 'after-init-hook 'solarized-theme-hook)
-  (setq initial-frame-alist '((left . 0) (top . 0) (width . 184) (height . 52))))
+  (set-default-font "DejaVu Sans Mono-12")
+  (add-hook 'after-init-hook 'solarized-theme-hook))
