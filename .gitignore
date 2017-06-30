@@ -1,5 +1,6 @@
 *~
 *.dat
+*.elc
 auto-save-list
 backup
 elpa

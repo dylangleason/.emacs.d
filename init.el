@@ -55,13 +55,24 @@
  'flycheck)
 
 ;; load files in init directory
+(defun expand-user-file (file)
+  (expand-file-name file emacs-init-dir))
+
 (defun load-user-file (file)
   (interactive "f")
-  (load-file (expand-file-name file emacs-init-dir)))
+  (load-file (expand-user-file file)))
+
+;; compile files for quicker loading
+(byte-recompile-directory emacs-init-dir)
 
 (mapc (lambda (file)
         (when (string-match "^\\(.+\.el\\)$" file)
-          (load-user-file file)))
+          (let ((compiled (concat file "c")))
+            (if (file-exists-p (expand-user-file compiled))
+                (load-user-file compiled)
+              (progn
+                (byte-compile-file (expand-user-file file))
+                (load-user-file compiled))))))
       (directory-files emacs-init-dir))
 
 (add-to-list 'load-path "~/Projects/standup-notes")
