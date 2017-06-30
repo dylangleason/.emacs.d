@@ -20,7 +20,7 @@
   (setq inferior-lisp-program "/usr/local/bin/sbcl")
   (setq slime-protocol-version 'ignore)
   (slime-setup '(slime-repl slime-asdf slime-fancy slime-banner))
-  (add-hook 'slime-mode-hook 'enable-paredit))
+  (add-hook 'slime-mode-hook (paredit-mode t)))
 
 (add-hook 'lisp-mode-hook 'my-lisp-mode-common-hook)
 (add-hook 'lisp-interaction-mode-hook 'my-lisp-mode-common-hook)
@@ -52,6 +52,6 @@
  'geiser
  'quack)
 
-(add-hook 'scheme-mode-hook 'my-lisp-mode-common-hook)
+(add-hook 'scheme-mode-hook (lambda () (paredit-mode t)))
 (setq geiser-active-implementations '(racket))
 (setq geiser-repl-history-filename "~/.emacs.d/geiser-history")
