@@ -74,6 +74,3 @@
                 (byte-compile-file (expand-user-file file))
                 (load-user-file compiled))))))
       (directory-files emacs-init-dir))
-
-(add-to-list 'load-path "~/Projects/standup-notes")
-(require 'standup-notes)

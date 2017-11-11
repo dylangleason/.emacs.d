@@ -52,6 +52,10 @@
  'geiser
  'quack)
 
-(add-hook 'scheme-mode-hook (lambda () (paredit-mode t)))
-(setq geiser-active-implementations '(racket))
+(defun my-scheme-mode-hook ()
+  (my-lisp-mode-common-hook)
+  (setq quack-fontify-style 'emacs))
+
+(add-hook 'scheme-mode-hook 'my-scheme-mode-hook)
+(setq geiser-active-implementations '(guile racket))
 (setq geiser-repl-history-filename "~/.emacs.d/geiser-history")
