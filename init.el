@@ -51,8 +51,7 @@
 
 (packages-require
  'exec-path-from-shell
- 'flycheck
- 'multiple-cursors)
+ 'flycheck)
 
 ;; load files in init directory
 (defun expand-user-file (file)
