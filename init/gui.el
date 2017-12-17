@@ -1,8 +1,9 @@
 ;;;; File : gui.el
 ;;;; Settings for emacs when using window system
 
-(unless (package-installed-p 'color-theme-solarized)
-  (package-install 'color-theme-solarized))
+(packages-require
+ 'color-theme
+ 'color-theme-solarized)
 
 ;; themes settings
 (defun default-theme-hook ()

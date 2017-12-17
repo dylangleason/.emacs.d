@@ -38,8 +38,7 @@
 ;; init package manager
 (require 'package)
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "https://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
 (defun packages-require (&rest packages)
@@ -52,7 +51,8 @@
 
 (packages-require
  'exec-path-from-shell
- 'flycheck)
+ 'flycheck
+ 'multiple-cursors)
 
 ;; load files in init directory
 (defun expand-user-file (file)
