@@ -1,8 +1,37 @@
 ;;;; File: init.el
 ;;;; Emacs initialization file
 
+;;; Helper constants and functions
+
 (defconst emacs-dir "~/.emacs.d/")
 (defconst emacs-init-dir (concat emacs-dir "init/"))
+
+(defun kill-other-buffers ()
+  "Kill all buffers except the current buffer"
+  (interactive)
+  (let ((cur (current-buffer)))
+    (dolist (buf (buffer-list))
+      (unless (string= (buffer-name buf) (buffer-name cur))
+        (kill-buffer buf)))))
+
+(defun packages-require (&rest packages)
+  "Install and load one or more packages automatically"
+  (mapc (lambda (package)
+          (unless (package-installed-p package)
+            (package-install package))
+          (require package))
+        packages))
+
+(defun expand-user-file (file)
+  "Expand the user file name
+FILE the name of the file to expand"
+  (expand-file-name file emacs-init-dir))
+
+(defun load-user-file (file)
+  "Load a user file interactively
+FILE the name of the file to load"
+  (interactive "f")
+  (load-file (expand-user-file file)))
 
 ;; set global variables
 (setq lexical-bindings t
@@ -41,29 +70,14 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
-(defun packages-require (&rest packages)
-  "Install and load one or more packages automatically"
-  (mapc (lambda (package)
-          (unless (package-installed-p package)
-            (package-install package))
-          (require package))
-        packages))
-
 (packages-require
  'exec-path-from-shell
  'flycheck)
 
-;; load files in init directory
-(defun expand-user-file (file)
-  (expand-file-name file emacs-init-dir))
-
-(defun load-user-file (file)
-  (interactive "f")
-  (load-file (expand-user-file file)))
-
 ;; compile files for quicker loading
 (byte-recompile-directory emacs-init-dir)
 
+;; load files in the init directory
 (mapc (lambda (file)
         (when (string-match "^\\(.+\.el\\)$" file)
           (let ((compiled (concat file "c")))
