@@ -1,7 +1,13 @@
 *~
 *.dat
 *.elc
+*.bak
+.mc-lists.el
 geiser-history.*
+auto-save-list
 backup
 elpa
+eshell
 request
+session.*
+vendor
