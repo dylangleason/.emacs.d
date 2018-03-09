@@ -1,10 +1,14 @@
 ;;;; File: init.el
 ;;;; Emacs initialization file
 
+;;; Global constants
+
 (defconst emacs-dir "~/.emacs.d/")
 (defconst emacs-init-dir (concat emacs-dir "init/"))
+(defconst emacs-lang-dir (concat emacs-init-dir "lang/"))
 
-;; set global variables
+;;; Set global variables
+
 (setq lexical-bindings t
       inhibit-startup-message t
       custom-file (concat emacs-init-dir "custom.el")
@@ -18,7 +22,8 @@
 
 (setq-default indent-tabs-mode nil)
 
-;; set new keybindings
+;;; Set global keybindings
+
 (global-set-key "\C-x\C-m" 'execute-extended-command)  ; M-x
 (global-set-key "\C-c\C-m" 'execute-extended-command)  ; M-x
 (global-set-key "\C-w" 'backward-kill-word)            ; M-DEL
@@ -27,49 +32,39 @@
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key "\C-c\C-c" 'comment-or-uncomment-region)
 
-;; make font-lock mode global
 (global-font-lock-mode 1)
 
-;; Turn off scroll bars and menus
+;;; Turn off scroll bars and menus
+
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
-;; init package manager
-(require 'package)
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
+;;; Load files in init directory, including helper functions,
+;;; packages, and language specific configurations.
 
-(defun packages-require (&rest packages)
-  "Install and load one or more packages automatically"
-  (mapc (lambda (package)
-          (unless (package-installed-p package)
-            (package-install package))
-          (require package))
-        packages))
+(defun expand-user-file (file dir)
+  "Expand the user file name
+FILE the name of the file to expand"
+  (expand-file-name file dir))
 
-(packages-require
- 'exec-path-from-shell
- 'flycheck)
-
-;; load files in init directory
-(defun expand-user-file (file)
-  (expand-file-name file emacs-init-dir))
-
-(defun load-user-file (file)
+(defun load-user-file (file dir)
+  "Load a user file interactively
+FILE the name of the file to load"
   (interactive "f")
-  (load-file (expand-user-file file)))
+  (load-file (expand-user-file file dir)))
 
-;; compile files for quicker loading
-(byte-recompile-directory emacs-init-dir)
+(defun compile-and-load-directory-files (dir)
+  (byte-recompile-directory dir)
+  (mapc (lambda (file)
+          (when (string-match "^\\(.+\.el\\)$" file)
+            (let ((compiled (concat file "c")))
+              (if (file-exists-p (expand-user-file compiled dir))
+                  (load-user-file compiled dir)
+                (progn
+                  (byte-compile-file (expand-user-file file dir))
+                  (load-user-file compiled dir))))))
+        (directory-files dir)))
 
-(mapc (lambda (file)
-        (when (string-match "^\\(.+\.el\\)$" file)
-          (let ((compiled (concat file "c")))
-            (if (file-exists-p (expand-user-file compiled))
-                (load-user-file compiled)
-              (progn
-                (byte-compile-file (expand-user-file file))
-                (load-user-file compiled))))))
-      (directory-files emacs-init-dir))
+(compile-and-load-directory-files emacs-init-dir)
+(compile-and-load-directory-files emacs-lang-dir)
