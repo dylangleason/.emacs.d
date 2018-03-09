@@ -26,6 +26,7 @@
   (ac-config-default))
 
 (use-package color-theme
+  :if (display-graphic-p)
   :ensure t)
 
 (use-package color-theme-solarized
@@ -40,7 +41,7 @@
   :config
   (progn
     (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-envs "PATH" "GOPATH")))
+    (exec-path-from-shell-copy-env "GOPATH")))
 
 (use-package flycheck
   :ensure t)
@@ -62,7 +63,7 @@
         (bash "/bin/bash"))
     (if (file-exists-p zsh)
         (setq multi-term-program zsh)
-      (setq multi-termp-program bash))))
+      (setq multi-term-program bash))))
 
 (use-package neotree
   :bind ("C-c n" . neotree-toggle)
