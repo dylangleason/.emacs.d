@@ -2,9 +2,8 @@
 ;;;; web-mode customizations
 
 (use-package web-mode
-  :ensure t
   :mode "\\.html?\\'"
-  :hook (before-save . (lambda () (untabify (point-min) (point-max))))
+  :hook (before-save . remove-tabs)
   :config
   (setq web-mode-css-indent-offset 4
         web-mode-code-indent-offset 4

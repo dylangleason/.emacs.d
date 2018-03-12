@@ -3,13 +3,6 @@
 
 ;;; Global constants
 
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-;; (package-initialize)
-
 (defconst emacs-dir "~/.emacs.d/")
 (defconst emacs-init-dir (concat emacs-dir "init/"))
 (defconst emacs-lang-dir (concat emacs-init-dir "lang/"))
@@ -50,6 +43,21 @@
 ;;; Load files in init directory, including helper functions,
 ;;; packages, and language specific configurations.
 
+(require 'package)
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package)
+  (setq use-package-always-ensure t))
+
 (defun expand-user-file (file dir)
   "Expand the user file name
 FILE the name of the file to expand"
@@ -66,11 +74,9 @@ FILE the name of the file to load"
   (mapc (lambda (file)
           (when (string-match "^\\(.+\.el\\)$" file)
             (let ((compiled (concat file "c")))
-              (if (file-exists-p (expand-user-file compiled dir))
-                  (load-user-file compiled dir)
-                (progn
-                  (byte-compile-file (expand-user-file file dir))
-                  (load-user-file compiled dir))))))
+              (unless (file-exists-p (expand-user-file compiled dir))
+                (byte-compile-file (expand-user-file file dir)))
+              (load-user-file compiled dir))))
         (directory-files dir)))
 
 (compile-and-load-directory-files emacs-init-dir)

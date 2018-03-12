@@ -8,6 +8,7 @@ auto-save-list
 backup
 elpa
 eshell
+projectile*
 request
 session.*
 vendor

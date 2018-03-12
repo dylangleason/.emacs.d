@@ -7,11 +7,8 @@
   (paredit-mode t)
   (rainbow-delimiters-mode-enable))
 
-(use-package paredit
-  :ensure t)
-
-(use-package rainbow-delimiters
-  :ensure t)
+(use-package paredit)
+(use-package rainbow-delimiters)  
 
 (add-hook 'emacs-lisp-mode-hook 'my-lisp-mode-common-hook)
 (add-hook 'lisp-mode-hook 'my-lisp-mode-common-hook)
@@ -35,11 +32,9 @@
   (eldoc-mode))
 
 (use-package clojure-mode
-  :ensure t
   :hook (clojure-mode . my-lisp-mode-common-hook))
 
 (use-package cider
-  :ensure t
   :after (clojure-mode)
   :hook ((cider-mode . my-lisp-mode-common-hook)
          (cider-repl-mode . my-cider-repl-mode-hook)))
@@ -58,12 +53,10 @@
   (setq quack-fontify-style 'emacs))
 
 (use-package quack
-  :ensure t
-  :requires (scheme-mode))
+  :after (scheme-mode))
 
 (use-package geiser
-  :ensure t
-  :requires (scheme-mode)
+  :after (scheme-mode)
   :config
   (progn
     (setq geiser-active-implementations '(guile racket))

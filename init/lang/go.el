@@ -7,16 +7,13 @@
   (setq whitespace-style '(empty lines-tail trailing)))
 
 (use-package go-mode
-  :ensure t
   :hook ((go-mode . my-go-mode-hook)
          (before-save . gofmt-before-save)))
 
 (use-package go-autocomplete
-  :ensure t
   :after (go-mode))
 
 (use-package flycheck-gometalinter
-  :ensure t
   :after (flycheck go-mode)
   :config
   (progn
