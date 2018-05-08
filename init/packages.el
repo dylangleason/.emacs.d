@@ -11,12 +11,7 @@
   (ac-config-default))
 
 (use-package color-theme
-  :if (display-graphic-p))
-
-(use-package color-theme-solarized
-  :if (display-graphic-p)
-  :after (color-theme)
-  :hook (after-init . solarized-theme-hook))
+  :hook (after-init . (lambda () (load-theme 'wombat))))
 
 (use-package exec-path-from-shell
   :if (display-graphic-p)
@@ -26,6 +21,8 @@
     (exec-path-from-shell-copy-env "GOPATH")))
 
 (use-package flycheck)
+
+(use-package magit)
 
 (use-package multiple-cursors
   :bind (("C-S-c C-S-c" . mc/edit-lines)
@@ -63,6 +60,10 @@
     (global-whitespace-mode 1)))
 
 (use-package yaml-mode)
+
+(use-package yasnippet)
+
+(use-package yasnippet-snippets :after (yasnippet))
 
 ;;; Load vendored dependencies / custom repos not managed by ELPA
 

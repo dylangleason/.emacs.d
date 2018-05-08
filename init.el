@@ -10,6 +10,7 @@
 ;;; Set global variables
 
 (setq lexical-bindings t
+      default-terminal-coding-system 'utf-8
       inhibit-startup-message t
       custom-file (concat emacs-init-dir "custom.el")
       case-fold-search nil

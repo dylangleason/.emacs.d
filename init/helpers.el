@@ -27,6 +27,8 @@ DIR the directory to initialize the buffer in"
 NAME name of the buffer"
   (let* ((buffer (multi-term)) (old-name buffer))
     (with-current-buffer old-name
+      ;; TODO before renaming the buffer, make sure that `name'
+      ;; doesn't already exist. If it does, rename the buffer
       (rename-buffer name))))
 
 (defun make-dev-buffer (fn dir orientation)
@@ -57,6 +59,14 @@ PROCESS-CMD the process command to run in the shell"
   (make-term-buffer name)
   (change-dir name dir)
   (exec-process-cmd name process-cmd))
+
+(defun ssh ()
+  (interactive)
+  (let ((hostname (read-string "Connection string: " nil nil nil)))
+    (run-process (concat "ssh://" hostname)
+                 (pwd)
+                 (concat "ssh " hostname "\n"))))
+
 
 ;;; Example Usage for bootstrapping a local dev environment within
 ;;; emacs using the above:

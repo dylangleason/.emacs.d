@@ -7,9 +7,9 @@
   (add-to-list 'default-frame-alist '(background-color . "black"))
   (add-to-list 'default-frame-alist '(foreground-color . "white")))
 
-(defun solarized-theme-hook ()
-  (add-to-list 'default-frame-alist '(background-color . "black"))
-  (load-theme 'solarized t))
+(when (and (display-graphic-p)
+           (not (package-installed-p 'color-theme)))
+  (add-hook 'after-init-hook 'default-theme-hook))
 
 ;;; macOS / Cocoa-specific settings
 
