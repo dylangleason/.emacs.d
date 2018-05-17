@@ -22,6 +22,12 @@
 
 (use-package flycheck)
 
+(use-package helm
+  :config
+  (progn
+    (helm-mode 1)
+    (global-set-key (kbd "M-x") 'helm-M-x)))
+
 (use-package magit)
 
 (use-package multiple-cursors
@@ -32,11 +38,12 @@
 
 (use-package multi-term
   :bind (("C-c t" . multi-term)
-         ("M-[" . multi-term-prev)
-         ("M-]" . multi-term-next))
+         ("C-c [" . multi-term-prev)
+         ("C-c ]" . multi-term-next))
   :config
   (let ((zsh  "/bin/zsh")
         (bash "/bin/bash"))
+    (set-terminal-coding-system 'utf-8)
     (if (file-exists-p zsh)
         (setq multi-term-program zsh)
       (setq multi-term-program bash))))
@@ -67,8 +74,18 @@
 
 ;;; Load vendored dependencies / custom repos not managed by ELPA
 
-(defconst emacs-vendor-dir (concat emacs-dir "vendor/"))
+(defun load-vendor-dep (vendor-path pkg)
+  (when (file-exists-p vendor-path)
+    (add-to-list 'load-path (concat vendor-path "/"))
+    (require (intern pkg))))
 
-(when (file-exists-p (concat emacs-vendor-dir "/standup-notes"))
-  (add-to-list 'load-path (concat emacs-vendor-dir "standup-notes/"))
-  (require 'standup-notes))
+(defun load-vendor-deps ()
+  ;; NOTE: this assumes that the subdirectory name in vendor and
+  ;; package name are the same.
+  (let ((vendor-dir (concat emacs-dir "vendor")))
+    (mapc (lambda (dir)
+            (unless (string-match "^\\(\.\\|\.\.\\)$" dir)
+              (load-vendor-dep (concat vendor-dir "/" dir) dir)))
+          (directory-files vendor-dir))))
+
+(load-vendor-deps)
