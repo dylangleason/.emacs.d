@@ -4,8 +4,7 @@
 (use-package enh-ruby-mode
   :mode "\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'"
   :interpreter "ruby"
-  :hook ((enh-ruby-mode . robe-mode)
-         (enh-ruby-mode . rubocop-mode)
+  :hook ((enh-ruby-mode . rubocop-mode)
          (enh-ruby-mode . flycheck-mode)
          (enh-ruby-mode . yas-minor-mode))
   :config
@@ -15,9 +14,6 @@
   :after (enh-ruby-mode))
 
 (use-package rinari
-  :after (enh-ruby-mode))
-
-(use-package robe
   :after (enh-ruby-mode))
 
 (use-package rspec-mode

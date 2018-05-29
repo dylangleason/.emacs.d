@@ -26,7 +26,12 @@
   :config
   (progn
     (helm-mode 1)
-    (global-set-key (kbd "M-x") 'helm-M-x)))
+    (global-set-key (kbd "M-x") 'helm-M-x)
+    (setq helm-split-window-inside-p t)))
+
+(use-package helm-ag :after (helm))
+
+(use-package helm-projectile :after (helm projectile))
 
 (use-package magit)
 
@@ -47,12 +52,6 @@
     (if (file-exists-p zsh)
         (setq multi-term-program zsh)
       (setq multi-term-program bash))))
-
-(use-package neotree
-  :bind ("C-c n" . neotree-toggle)
-  :config
-  (when (not (display-graphic-p))
-    (set-face-foreground neo-file-link-face "white")))
 
 (use-package projectile
   :config
