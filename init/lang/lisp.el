@@ -8,7 +8,7 @@
   (rainbow-delimiters-mode-enable))
 
 (use-package paredit)
-(use-package rainbow-delimiters)  
+(use-package rainbow-delimiters)
 
 (add-hook 'emacs-lisp-mode-hook 'my-lisp-mode-common-hook)
 (add-hook 'lisp-mode-hook 'my-lisp-mode-common-hook)
@@ -50,16 +50,14 @@
 
 (defun my-scheme-mode-hook ()
   (my-lisp-mode-common-hook)
-  (setq quack-fontify-style 'emacs))
+  (setq geiser-active-implementations '(chicken chez)
+        geiser-repl-history-filename "~/.emacs.d/geiser-history"
+        quack-fontify-style 'emacs))
 
 (use-package quack
   :after (scheme-mode))
 
 (use-package geiser
-  :after (scheme-mode)
-  :config
-  (progn
-    (setq geiser-active-implementations '(guile racket))
-    (setq geiser-repl-history-filename "~/.emacs.d/geiser-history")))
+  :after (scheme-mode))
 
 (add-hook 'scheme-mode-hook 'my-scheme-mode-hook)

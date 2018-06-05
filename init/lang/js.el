@@ -5,12 +5,13 @@
 
 (use-package js2-mode
   :after (js-comint)
-  :bind (("C-x C-e" . js-send-last-sexp)
-         ("C-x M-x" . js-send-last-sexp-and-go)
-         ("C-c C-r" . js-send-region)
-         ("C-c C-b" . js-send-buffer-and-go)
-         ("C-c b" . js-send-buffer)
-         ("C-c l" . js-load-file-and-go))
+  :bind (:map js2-mode-map
+              ("C-x C-e" . js-send-last-sexp)
+              ("C-x M-x" . js-send-last-sexp-and-go)
+              ("C-c C-r" . js-send-region)
+              ("C-c C-b" . js-send-buffer-and-go)
+              ("C-c b" . js-send-buffer)
+              ("C-c l" . js-load-file-and-go))
   :hook (before-save . remove-tabs)
   :mode "\\.js\\'"
   :config

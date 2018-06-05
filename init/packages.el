@@ -26,8 +26,9 @@
   :config
   (progn
     (helm-mode 1)
+    (setq helm-split-window-inside-p t)
     (global-set-key (kbd "M-x") 'helm-M-x)
-    (setq helm-split-window-inside-p t)))
+    (global-set-key (kbd "C-x C-f") 'helm-find-files)))
 
 (use-package helm-ag :after (helm))
 
@@ -72,6 +73,7 @@
 (use-package yasnippet-snippets :after (yasnippet))
 
 ;;; Load vendored dependencies / custom repos not managed by ELPA
+(defconst vendor-dir (concat emacs-dir "vendor"))
 
 (defun load-vendor-dep (vendor-path pkg)
   (when (file-exists-p vendor-path)
@@ -81,10 +83,10 @@
 (defun load-vendor-deps ()
   ;; NOTE: this assumes that the subdirectory name in vendor and
   ;; package name are the same.
-  (let ((vendor-dir (concat emacs-dir "vendor")))
-    (mapc (lambda (dir)
-            (unless (string-match "^\\(\.\\|\.\.\\)$" dir)
-              (load-vendor-dep (concat vendor-dir "/" dir) dir)))
-          (directory-files vendor-dir))))
+  (mapc (lambda (dir)
+          (unless (string-match "^\\(\.\\|\.\.\\)$" dir)
+            (load-vendor-dep (concat vendor-dir "/" dir) dir)))
+        (directory-files vendor-dir)))
 
-(load-vendor-deps)
+(when (file-exists-p vendor-dir)
+  (load-vendor-deps))

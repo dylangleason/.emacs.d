@@ -13,5 +13,6 @@ projectile*
 recentf
 request
 session.*
-vendor
+tramp
 url
+vendor
