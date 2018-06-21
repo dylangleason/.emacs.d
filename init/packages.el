@@ -31,7 +31,6 @@
     (global-set-key (kbd "C-x C-f") 'helm-find-files)))
 
 (use-package helm-ag :after (helm))
-
 (use-package helm-projectile :after (helm projectile))
 
 (use-package magit)
@@ -59,6 +58,12 @@
   (setq projectile-enable-caching t
         projectile-indexing-method 'native))
 
+(use-package restclient
+  :config
+  (add-to-list 'auto-mode-alist '("\\.http\\'" . restclient-mode)))
+
+(use-package restclient-helm :after (restclient))
+
 (use-package whitespace
   :hook (before-save . whitespace-cleanup)
   :config
@@ -69,7 +74,6 @@
 (use-package yaml-mode)
 
 (use-package yasnippet)
-
 (use-package yasnippet-snippets :after (yasnippet))
 
 ;;; Load vendored dependencies / custom repos not managed by ELPA

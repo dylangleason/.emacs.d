@@ -34,12 +34,17 @@
 (global-set-key "\C-c\C-c" 'comment-or-uncomment-region)
 
 (global-font-lock-mode 1)
+(global-prettify-symbols-mode 1)
 
 ;;; Turn off scroll bars and menus
 
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+
+;;; Enable linum-mode when visiting files
+
+(add-hook 'find-file-hook 'linum-mode)
 
 ;;; Load files in init directory, including helper functions,
 ;;; packages, and language specific configurations.
@@ -82,3 +87,4 @@ FILE the name of the file to load"
 
 (compile-and-load-directory-files emacs-init-dir)
 (compile-and-load-directory-files emacs-lang-dir)
+(put 'dired-find-alternate-file 'disabled nil)
