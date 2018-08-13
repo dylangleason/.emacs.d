@@ -10,8 +10,21 @@
   (add-to-list 'ac-dictionary-directories "~/.emacs.d/lisp/ac-dict")
   (ac-config-default))
 
-(use-package color-theme
-  :hook (after-init . (lambda () (load-theme 'wombat))))
+(use-package color-theme-approximate
+  :init
+  (progn
+    (autoload 'color-theme-approximate-on "color-theme-approximate")
+    (color-theme-approximate-on)))
+
+(use-package color-theme-solarized
+  :init
+  (setq solarized-termcolors 256)
+  :hook
+  (after-init . (lambda ()
+                  (add-to-list 'default-frame-alist '(background-color . "dark"))
+                  (enable-theme 'solarized)))
+  :config
+  (load-theme 'solarized t))
 
 (use-package exec-path-from-shell
   :if (display-graphic-p)
