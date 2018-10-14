@@ -3,8 +3,12 @@
 
 ;;; Basic Lisp / ELisp packages and configurations
 
+(defun prettify-lambda ()
+  (setq prettify-symbols-alist '(("lambda" . 955))))
+
 (defun my-lisp-mode-common-hook ()
   (paredit-mode t)
+  (prettify-lambda)
   (rainbow-delimiters-mode-enable))
 
 (use-package paredit)
@@ -50,7 +54,9 @@
 
 (defun my-scheme-mode-hook ()
   (my-lisp-mode-common-hook)
-  (setq geiser-active-implementations '(chicken chez)
+  (setq geiser-chez-binary "/usr/local/bin/chez"
+        geiser-guile-binary "/usr/local/bin/guile"
+        geiser-active-implementations '(chez chicken guile)
         geiser-repl-history-filename "~/.emacs.d/geiser-history"
         quack-fontify-style 'emacs))
 

@@ -7,11 +7,18 @@
 (use-package auto-complete
   :load-path "~/.emacs.d/lisp"
   :config
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/lisp/ac-dict")
-  (ac-config-default))
+  (progn
+    (add-to-list 'ac-dictionary-directories "~/.emacs.d/lisp/ac-dict")
+    (ac-config-default)))
 
-(use-package color-theme
-  :hook (after-init . (lambda () (load-theme 'wombat))))
+(use-package ac-etags
+  :config
+  (progn
+    (custom-set-variables
+     '(ac-etags-requires 1))
+    (eval-after-load "etags"
+      '(progn
+         (ac-etags-setup)))))
 
 (use-package exec-path-from-shell
   :if (display-graphic-p)
@@ -31,7 +38,10 @@
     (global-set-key (kbd "C-x C-f") 'helm-find-files)))
 
 (use-package helm-ag :after (helm))
-(use-package helm-projectile :after (helm projectile))
+(use-package helm-projectile
+  :after (helm projectile)
+  :config
+  (helm-projectile-on))
 
 (use-package magit)
 
@@ -56,7 +66,8 @@
 (use-package projectile
   :config
   (setq projectile-enable-caching t
-        projectile-indexing-method 'native))
+        projectile-indexing-method 'native
+        projectile-require-project-root t))
 
 (use-package restclient
   :config
@@ -68,7 +79,7 @@
   :hook (before-save . whitespace-cleanup)
   :config
   (progn
-    (setq whitespace-style '(empty lines-tail tabs tab-mark trailing))
+    (setq whitespace-style '(empty face trailing tab-mark))
     (global-whitespace-mode 1)))
 
 (use-package yaml-mode)

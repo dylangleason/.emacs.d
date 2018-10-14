@@ -9,3 +9,5 @@
         web-mode-code-indent-offset 4
         web-mode-markup-indent-offset 4
         web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'"))))
+
+(use-package haml-mode)

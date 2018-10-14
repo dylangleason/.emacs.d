@@ -1,5 +1,5 @@
 ;;;; File : js.el
-;;;; javascript settings
+;;;; javascript and coffeescript settings
 
 (use-package js-comint)
 
@@ -17,7 +17,19 @@
   :config
   (progn
     (autoload 'js2-mode "js2-mode" nil t)
-    (setq js-indent-level 4
+    (setq js-indent-level 2
           indent-tabs-mode nil
           inferior-js-program-command "/usr/local/bin/node")
     (setenv "NODE_NO_READLINE" "1")))
+
+(use-package coffee-mode
+  :init
+  (progn
+    (setq whitespace-style '(
+                             empty
+                             indentation
+                             lines-tail
+                             space-before-tab
+                             space-after-tab
+                             tabs-mark
+                             ))))
