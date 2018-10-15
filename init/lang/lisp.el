@@ -3,6 +3,9 @@
 
 ;;; Basic Lisp / ELisp packages and configurations
 
+(use-package paredit)
+(use-package rainbow-delimiters)
+
 (defun prettify-lambda ()
   (setq prettify-symbols-alist '(("lambda" . 955))))
 
@@ -10,9 +13,6 @@
   (paredit-mode t)
   (prettify-lambda)
   (rainbow-delimiters-mode-enable))
-
-(use-package paredit)
-(use-package rainbow-delimiters)
 
 (add-hook 'emacs-lisp-mode-hook 'my-lisp-mode-common-hook)
 (add-hook 'lisp-mode-hook 'my-lisp-mode-common-hook)
@@ -36,6 +36,7 @@
   (eldoc-mode))
 
 (use-package clojure-mode
+  :after (paredit)
   :hook (clojure-mode . my-lisp-mode-common-hook))
 
 (use-package cider
@@ -52,18 +53,14 @@
 
 ;;; Configure Scheme / Racket
 
+(use-package geiser
+  :after (scheme-mode paredit))
+
 (defun my-scheme-mode-hook ()
   (my-lisp-mode-common-hook)
   (setq geiser-chez-binary "/usr/local/bin/chez"
         geiser-guile-binary "/usr/local/bin/guile"
         geiser-active-implementations '(chez chicken guile)
-        geiser-repl-history-filename "~/.emacs.d/geiser-history"
-        quack-fontify-style 'emacs))
-
-(use-package quack
-  :after (scheme-mode))
-
-(use-package geiser
-  :after (scheme-mode))
+        geiser-repl-history-filename "~/.emacs.d/geiser-history"))
 
 (add-hook 'scheme-mode-hook 'my-scheme-mode-hook)

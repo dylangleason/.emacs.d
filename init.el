@@ -4,22 +4,22 @@
 ;;; Global constants
 
 (defconst emacs-dir "~/.emacs.d/")
-(defconst emacs-init-dir (concat emacs-dir "init/"))
-(defconst emacs-lang-dir (concat emacs-init-dir "lang/"))
+(defconst init-dir (concat emacs-dir "init/"))
 
 ;;; Set global variables
 
 (setq lexical-bindings t
       default-terminal-coding-system 'utf-8
       inhibit-startup-message t
-      custom-file (concat emacs-init-dir "custom.el")
+      custom-file (concat init-dir "custom.el")
       case-fold-search nil
       backup-directory-alist `(("." . ,(concat emacs-dir "backup")))
       backup-by-copying t
       version-control t
       delete-old-versions t
       kept-new-versions 20
-      kept-old-versions 10)
+      kept-old-versions 10
+      load-prefer-newer t)
 
 (setq-default indent-tabs-mode nil)
 
@@ -46,6 +46,10 @@
 
 (add-hook 'find-file-hook 'linum-mode)
 
+;;; Dired configurations
+
+(put 'dired-find-alternate-file 'disabled nil)
+
 ;;; Load files in init directory, including helper functions,
 ;;; packages, and language specific configurations.
 
@@ -64,27 +68,29 @@
   (require 'use-package)
   (setq use-package-always-ensure t))
 
-(defun expand-user-file (file dir)
-  "Expand the user file name
-FILE the name of the file to expand"
-  (expand-file-name file dir))
-
 (defun load-user-file (file dir)
   "Load a user file interactively
 FILE the name of the file to load"
   (interactive "f")
-  (load-file (expand-user-file file dir)))
+  (load-file (expand-file-name file dir)))
 
-(defun compile-and-load-directory-files (dir)
-  (byte-recompile-directory dir)
+(defun load-directory-files (dir)
+  "Recursively load files in DIR. Checks to see if byte-compiled
+init files exist and will load those. Otherwise, load normal init
+files and compile for next load."
   (mapc (lambda (file)
-          (when (string-match "^\\(.+\.el\\)$" file)
-            (let ((compiled (concat file "c")))
-              (unless (file-exists-p (expand-user-file compiled dir))
-                (byte-compile-file (expand-user-file file dir)))
-              (load-user-file compiled dir))))
+          (when (string-match "^\\w+?\.\\w+$" file)
+            (let ((file-path (expand-file-name file dir)))
+              (if (file-directory-p file-path)
+                  (load-directory-files file-path)
+                (when (string-match "^\\(.+\.el\\)$" file)
+                  (let ((compiled (expand-file-name (concat file "c") dir)))
+                    (if (file-exists-p compiled)
+                        (load-file compiled)
+                      (progn
+                        (byte-compile-file file-path)
+                        (load-file file-path)))))))))
         (directory-files dir)))
 
-(compile-and-load-directory-files emacs-init-dir)
-(compile-and-load-directory-files emacs-lang-dir)
-(put 'dired-find-alternate-file 'disabled nil)
+(byte-recompile-directory init-dir)
+(load-directory-files init-dir)

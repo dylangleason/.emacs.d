@@ -65,9 +65,11 @@
 
 (use-package projectile
   :config
-  (setq projectile-enable-caching t
-        projectile-indexing-method 'native
-        projectile-require-project-root t))
+  (progn
+    (projectile-mode 1)
+    (setq projectile-enable-caching t
+          projectile-indexing-method 'native
+          projectile-require-project-root t)))
 
 (use-package restclient
   :config
