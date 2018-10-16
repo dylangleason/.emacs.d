@@ -79,18 +79,15 @@ FILE the name of the file to load"
 init files exist and will load those. Otherwise, load normal init
 files and compile for next load."
   (mapc (lambda (file)
-          (when (string-match "^\\w+?\.\\w+$" file)
-            (let ((file-path (expand-file-name file dir)))
-              (if (file-directory-p file-path)
-                  (load-directory-files file-path)
-                (when (string-match "^\\(.+\.el\\)$" file)
-                  (let ((compiled (expand-file-name (concat file "c") dir)))
-                    (if (file-exists-p compiled)
-                        (load-file compiled)
-                      (progn
-                        (byte-compile-file file-path)
-                        (load-file file-path)))))))))
-        (directory-files dir)))
+          (let ((path (expand-file-name file dir)))
+            (if (file-directory-p path)
+                (load-directory-files path)
+              (when (string-match "^\\(.+\.el\\)$" file)
+                (let ((compiled (expand-file-name (concat file "c") dir)))
+                  (unless (file-exists-p compiled)
+                    (byte-compile-file path))
+                  (load-file compiled))))))
+        (cddr (directory-files dir))))
 
 (byte-recompile-directory init-dir)
 (load-directory-files init-dir)
