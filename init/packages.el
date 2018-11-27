@@ -1,9 +1,3 @@
-;;;; File : packages.el
-;;;; Install default packages for assisting in development
-
-;;; NOTE: install language-specific packages via the "lang" directory
-;;; for the specified language.
-
 (use-package auto-complete
   :load-path "~/.emacs.d/lisp"
   :config
@@ -20,13 +14,6 @@
       '(progn
          (ac-etags-setup)))))
 
-(use-package exec-path-from-shell
-  :if (display-graphic-p)
-  :config
-  (progn
-    (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-env "GOPATH")))
-
 (use-package flycheck)
 
 (use-package helm
@@ -37,7 +24,9 @@
     (global-set-key (kbd "M-x") 'helm-M-x)
     (global-set-key (kbd "C-x C-f") 'helm-find-files)))
 
-(use-package helm-ag :after (helm))
+(use-package helm-ag
+  :after (helm))
+
 (use-package helm-projectile
   :after (helm projectile)
   :config
@@ -64,18 +53,14 @@
       (setq multi-term-program bash))))
 
 (use-package projectile
+  :init
+  (bind-key "C-c p" 'projectile-command-map)
   :config
   (progn
     (projectile-mode 1)
     (setq projectile-enable-caching t
           projectile-indexing-method 'native
           projectile-require-project-root t)))
-
-(use-package restclient
-  :config
-  (add-to-list 'auto-mode-alist '("\\.http\\'" . restclient-mode)))
-
-(use-package restclient-helm :after (restclient))
 
 (use-package whitespace
   :hook (before-save . whitespace-cleanup)
@@ -87,23 +72,5 @@
 (use-package yaml-mode)
 
 (use-package yasnippet)
+
 (use-package yasnippet-snippets :after (yasnippet))
-
-;;; Load vendored dependencies / custom repos not managed by ELPA
-(defconst vendor-dir (concat emacs-dir "vendor"))
-
-(defun load-vendor-dep (vendor-path pkg)
-  (when (file-exists-p vendor-path)
-    (add-to-list 'load-path (concat vendor-path "/"))
-    (require (intern pkg))))
-
-(defun load-vendor-deps ()
-  ;; NOTE: this assumes that the subdirectory name in vendor and
-  ;; package name are the same.
-  (mapc (lambda (dir)
-          (unless (string-match "^\\(\.\\|\.\.\\)$" dir)
-            (load-vendor-dep (concat vendor-dir "/" dir) dir)))
-        (directory-files vendor-dir)))
-
-(when (file-exists-p vendor-dir)
-  (load-vendor-deps))

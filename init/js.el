@@ -1,6 +1,3 @@
-;;;; File : js.el
-;;;; javascript and coffeescript settings
-
 (use-package js-comint)
 
 (use-package js2-mode

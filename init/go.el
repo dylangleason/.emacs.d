@@ -1,6 +1,3 @@
-;;;; File: go.el
-;;;; go-mode configuration file.
-
 (defun my-go-mode-hook ()
   (setq flycheck-mode t)
   (setq indent-tabs-mode t gofmt-command "goimports")

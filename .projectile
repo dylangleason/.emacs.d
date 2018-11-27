@@ -1,8 +1,10 @@
 -.DS_Store
 -.elc
 -.git
+-.bak
 -/auto-save-list
 -/backup
 -/elpa
+-/lisp
 -/url
 -/vendor

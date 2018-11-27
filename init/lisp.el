@@ -1,6 +1,3 @@
-;;;; File : lisp.el
-;;;; Elisp, Common Lisp, Clojure and SLIME configurations
-
 ;;; Basic Lisp / ELisp packages and configurations
 
 (use-package paredit)
@@ -54,7 +51,7 @@
 ;;; Configure Scheme / Racket
 
 (use-package geiser
-  :after (scheme-mode paredit))
+  :after (scheme paredit))
 
 (defun my-scheme-mode-hook ()
   (my-lisp-mode-common-hook)

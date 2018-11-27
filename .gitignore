@@ -9,6 +9,7 @@ auto-save-list
 backup
 elpa
 eshell
+lisp
 projectile*
 recentf
 request

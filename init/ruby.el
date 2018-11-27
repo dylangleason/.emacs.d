@@ -1,6 +1,3 @@
-;;;; File : ruby.el
-;;;; Configurations for editing ruby code
-
 (defun my-ruby-mode-hook ()
   (add-to-list 'ac-modes 'enh-ruby-mode)
   (add-to-list 'ac-sources 'ac-source-etags)
@@ -39,8 +36,8 @@
   :config
   (progn
     (setq
-     flycheck-ruby-rubocop-executable "/Users/dylangleason/.rbenv/shims/rubocop"
-     rubocop-check-command "/Users/dylangleason/.rbenv/shims/rubocop --format emacs")
+     flycheck-ruby-rubocop-executable "~/.rbenv/shims/rubocop"
+     rubocop-check-command "~/.rbenv/shims/rubocop --format emacs")
     (advice-add 'rubocop-build-command :override #'my-rubocop-build-command)))
 
 (use-package yari

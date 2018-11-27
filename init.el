@@ -1,10 +1,8 @@
-;;;; File: init.el
-;;;; Emacs initialization file
-
 ;;; Global constants
 
 (defconst emacs-dir "~/.emacs.d/")
 (defconst init-dir (concat emacs-dir "init/"))
+(defconst lisp-dir (concat emacs-dir "lisp/"))
 
 ;;; Set global variables
 
@@ -76,8 +74,8 @@ FILE the name of the file to load"
 
 (defun load-directory-files (dir)
   "Recursively load files in DIR. Checks to see if byte-compiled
-init files exist and will load those. Otherwise, load normal init
-files and compile for next load."
+lisp files exist and will load those. Otherwise, load normal lisp
+files and compile for subsequent loads."
   (mapc (lambda (file)
           (let ((path (expand-file-name file dir)))
             (if (file-directory-p path)
@@ -91,3 +89,15 @@ files and compile for next load."
 
 (byte-recompile-directory init-dir)
 (load-directory-files init-dir)
+
+(defun require-elisp-packages ()
+  "Add custom elisp packages to the load path and require
+them. This assumes that the subdirectory name in LISP-DIR and
+PACKAGE are the same."
+  (mapc (lambda (package)
+          (add-to-list 'load-path (concat lisp-dir package "/"))
+          (require (intern package)))
+        (cddr (directory-files lisp-dir))))
+
+(when (file-exists-p lisp-dir)
+  (require-elisp-packages))
