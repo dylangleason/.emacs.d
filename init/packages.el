@@ -32,6 +32,13 @@
   :config
   (helm-projectile-on))
 
+(use-package helm-flx
+  :init (helm-flx-mode +1)
+  :after (helm)
+  :config
+  (setq helm-flx-for-helm-find-files t
+        helm-flx-for-helm-locate t))
+
 (use-package magit)
 
 (use-package multiple-cursors
@@ -62,6 +69,8 @@
           projectile-indexing-method 'native
           projectile-require-project-root t)))
 
+(use-package undo-tree)
+
 (use-package whitespace
   :hook (before-save . whitespace-cleanup)
   :config
@@ -69,8 +78,8 @@
     (setq whitespace-style '(empty face trailing tab-mark))
     (global-whitespace-mode 1)))
 
-(use-package yaml-mode)
+(use-package yaml-mode
+  :mode "\\.yml\\'")
 
 (use-package yasnippet)
-
 (use-package yasnippet-snippets :after (yasnippet))
