@@ -7,12 +7,11 @@
     (color-theme-approximate-on)))
 
 (use-package nord-theme
+  :init
+  (setq nord-comment-brightness 10
+        nord-region-highlight "default")
   :hook (after-init . (lambda () (enable-theme 'nord)))
-  :config
-  (progn
-    (load-theme 'nord t)
-    (setq nord-comment-brightness 15)
-    (setq nord-region-highlight "default")))
+  :config (load-theme 'nord t))
 
 (defun default-theme-hook ()
   (add-to-list 'default-frame-alist '(background-color . "black"))
