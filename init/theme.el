@@ -13,6 +13,10 @@
   :hook (after-init . (lambda () (enable-theme 'nord)))
   :config (load-theme 'nord t))
 
+(use-package powerline
+  :config
+  (powerline-default-theme))
+
 (defun default-theme-hook ()
   (add-to-list 'default-frame-alist '(background-color . "black"))
   (add-to-list 'default-frame-alist '(foreground-color . "white")))
