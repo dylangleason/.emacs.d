@@ -1,3 +1,5 @@
+(use-package color-theme)
+
 (use-package color-theme-modern)
 
 (use-package color-theme-approximate
