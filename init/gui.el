@@ -8,7 +8,7 @@
 (when (display-graphic-p)
   (set-face-attribute 'default nil
                       :family "DejaVu Sans Mono for Powerline"
-                      :height 150))
+                      :height 140))
 
 (when (memq window-system '(mac ns))
   (add-to-list 'load-path "/Applications/Emacs.app")

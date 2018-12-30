@@ -8,6 +8,9 @@
     (autoload 'color-theme-approximate-on "color-theme-approximate")
     (color-theme-approximate-on)))
 
+(use-package eshell-git-prompt
+  :config (eshell-git-prompt-use-theme 'robbyrussell))
+
 (use-package nord-theme
   :init
   (setq nord-comment-brightness 10
