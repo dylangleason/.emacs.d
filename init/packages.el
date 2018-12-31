@@ -6,6 +6,7 @@
     (ac-config-default)))
 
 (use-package ac-etags
+  :after (autocomplete)
   :config
   (progn
     (custom-set-variables

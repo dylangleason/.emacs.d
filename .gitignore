@@ -9,6 +9,8 @@ auto-save-list
 backup
 elpa
 eshell
+eww-bookmarks
+help
 lisp
 projectile*
 recentf
