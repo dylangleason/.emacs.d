@@ -18,13 +18,23 @@
   :hook (after-init . (lambda () (enable-theme 'nord)))
   :config (load-theme 'nord t))
 
-(use-package powerline
-  :config
-  (powerline-default-theme))
-
 (defun default-theme-hook ()
   (add-to-list 'default-frame-alist '(background-color . "black"))
   (add-to-list 'default-frame-alist '(foreground-color . "white")))
 
 (when (not (package-installed-p 'color-theme))
   (add-hook 'after-init-hook 'default-theme-hook))
+
+(defvar my-projectile-mode-line
+  '(:propertize
+    (:eval (when (ignore-errors (projectile-project-root))
+             (concat "projectile: " (projectile-project-name))))))
+
+(put 'my-projectile-mode-line 'risky-local-variable t)
+
+(setq-default mode-line-format
+              '("%e %l"
+                "  " mode-line-modified
+                "  " mode-line-buffer-identification
+                "  " my-projectile-mode-line
+                "  " (vc-mode vc-mode)))

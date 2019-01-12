@@ -15,7 +15,7 @@
 (use-package inf-ruby
   :after (enh-ruby-mode))
 
-(use-package rinari
+(use-package projectile-rails
   :after (enh-ruby-mode))
 
 (use-package robe

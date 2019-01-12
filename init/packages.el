@@ -17,6 +17,8 @@
 
 (use-package flycheck)
 
+(use-package flycheck-inline)
+
 (use-package helm
   :config
   (progn

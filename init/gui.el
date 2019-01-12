@@ -1,5 +1,7 @@
 (use-package exec-path-from-shell
   :if (display-graphic-p)
+  :init
+  (setq exec-path-from-shell-check-startup-files nil)
   :config
   (progn
     (exec-path-from-shell-initialize)
@@ -7,8 +9,8 @@
 
 (when (display-graphic-p)
   (set-face-attribute 'default nil
-                      :family "DejaVu Sans Mono for Powerline"
-                      :height 140))
+                      :family "SourceCodePro+Powerline+Awesome Regular"
+                      :height 150))
 
 (when (memq window-system '(mac ns))
   (add-to-list 'load-path "/Applications/Emacs.app")
