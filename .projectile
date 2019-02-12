@@ -1,0 +1,14 @@
+-.DS_Store
+-.elc
+-.git
+-.bak
+-geiser*
+-projectile.cache
+-projectile-bookmarks.eld
+-/auto-save-list
+-/backup
+-/elpa
+-/help
+-/lisp
+-/url
+-/vendor

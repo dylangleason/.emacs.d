@@ -1,5 +1,5 @@
-;;;; File: dev-env.el
-;;;; helper routines for running processes within a dev environment.
+;;;; File: helpers.el
+;;;; Helper routines for aiding development
 
 (defun exec-process-cmd (buff-name cmd)
   "Excecute a process cmd and assign it a buffer name.
@@ -14,11 +14,21 @@ DIR the directory to initialize the buffer in"
   (exec-process-cmd buff-name (format "cd %s\n" dir))
   (exec-process-cmd buff-name "clear\n"))
 
+(defun kill-other-buffers ()
+  "Kill all buffers except the current buffer"
+  (interactive)
+  (let ((cur (current-buffer)))
+    (dolist (buf (buffer-list))
+      (unless (string= (buffer-name buf) (buffer-name cur))
+        (kill-buffer buf)))))
+
 (defun make-term-buffer (name)
   "Initialize a multi-term buffer with the specified name.
 NAME name of the buffer"
   (let* ((buffer (multi-term)) (old-name buffer))
     (with-current-buffer old-name
+      ;; TODO before renaming the buffer, make sure that `name'
+      ;; doesn't already exist. If it does, rename the buffer
       (rename-buffer name))))
 
 (defun make-dev-buffer (fn dir orientation)
@@ -37,6 +47,10 @@ ORIENTATION location of frame to orient buffer"
     (when (not (eq orientation nil))
       (funcall split-relative-window orientation))))
 
+(defun remove-tabs ()
+  "Remove tabs from the current buffer"
+  (untabify (point-min) (point-max)))
+
 (defun run-process (name dir process-cmd)
   "Run a process in a named buffer after changing the directory.
 NAME the name of the buffer to run the process in
@@ -45,6 +59,14 @@ PROCESS-CMD the process command to run in the shell"
   (make-term-buffer name)
   (change-dir name dir)
   (exec-process-cmd name process-cmd))
+
+(defun ssh ()
+  (interactive)
+  (let ((hostname (read-string "Connection string: " nil nil nil)))
+    (run-process (concat "ssh://" hostname)
+                 (pwd)
+                 (concat "ssh " hostname "\n"))))
+
 
 ;;; Example Usage for bootstrapping a local dev environment within
 ;;; emacs using the above:

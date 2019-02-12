@@ -1,53 +1,28 @@
-;;;; File: init.el
-;;;; Emacs initialization file
-
-;;; Helper constants and functions
+;;; Global constants
 
 (defconst emacs-dir "~/.emacs.d/")
-(defconst emacs-init-dir (concat emacs-dir "init/"))
+(defconst init-dir (concat emacs-dir "init/"))
+(defconst lisp-dir (concat emacs-dir "lisp/"))
 
-(defun kill-other-buffers ()
-  "Kill all buffers except the current buffer"
-  (interactive)
-  (let ((cur (current-buffer)))
-    (dolist (buf (buffer-list))
-      (unless (string= (buffer-name buf) (buffer-name cur))
-        (kill-buffer buf)))))
+;;; Set global variables
 
-(defun packages-require (&rest packages)
-  "Install and load one or more packages automatically"
-  (mapc (lambda (package)
-          (unless (package-installed-p package)
-            (package-install package))
-          (require package))
-        packages))
-
-(defun expand-user-file (file)
-  "Expand the user file name
-FILE the name of the file to expand"
-  (expand-file-name file emacs-init-dir))
-
-(defun load-user-file (file)
-  "Load a user file interactively
-FILE the name of the file to load"
-  (interactive "f")
-  (load-file (expand-user-file file)))
-
-;; set global variables
 (setq lexical-bindings t
+      default-terminal-coding-system 'utf-8
       inhibit-startup-message t
-      custom-file (concat emacs-init-dir "custom.el")
+      custom-file (concat init-dir "custom.el")
       case-fold-search nil
       backup-directory-alist `(("." . ,(concat emacs-dir "backup")))
       backup-by-copying t
       version-control t
       delete-old-versions t
       kept-new-versions 20
-      kept-old-versions 10)
+      kept-old-versions 10
+      load-prefer-newer t)
 
 (setq-default indent-tabs-mode nil)
 
-;; set new keybindings
+;;; Set global keybindings
+
 (global-set-key "\C-x\C-m" 'execute-extended-command)  ; M-x
 (global-set-key "\C-c\C-m" 'execute-extended-command)  ; M-x
 (global-set-key "\C-w" 'backward-kill-word)            ; M-DEL
@@ -56,34 +31,69 @@ FILE the name of the file to load"
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key "\C-c\C-c" 'comment-or-uncomment-region)
 
-;; make font-lock mode global
 (global-font-lock-mode 1)
+(global-prettify-symbols-mode 1)
 
-;; Turn off scroll bars and menus
+;;; Turn off scroll bars and menus
+
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
-;; init package manager
+;;; Dired configurations
+
+(put 'dired-find-alternate-file 'disabled nil)
+
+;;; Load files in init directory, including helper functions,
+;;; packages, and language specific configurations.
+
 (require 'package)
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
-(packages-require
- 'exec-path-from-shell
- 'flycheck)
+(when (not package-archive-contents)
+  (package-refresh-contents))
 
-;; compile files for quicker loading
-(byte-recompile-directory emacs-init-dir)
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 
-;; load files in the init directory
-(mapc (lambda (file)
-        (when (string-match "^\\(.+\.el\\)$" file)
-          (let ((compiled (concat file "c")))
-            (if (file-exists-p (expand-user-file compiled))
-                (load-user-file compiled)
-              (progn
-                (byte-compile-file (expand-user-file file))
-                (load-user-file compiled))))))
-      (directory-files emacs-init-dir))
+(eval-when-compile
+  (require 'use-package)
+  (setq use-package-always-ensure t))
+
+(defun load-user-file (file dir)
+  "Load a user file interactively
+FILE the name of the file to load"
+  (interactive "f")
+  (load-file (expand-file-name file dir)))
+
+(defun load-directory-files (dir)
+  "Recursively load files in DIR. Checks to see if byte-compiled
+lisp files exist and will load those. Otherwise, load normal lisp
+files and compile for subsequent loads."
+  (mapc (lambda (file)
+          (let ((path (expand-file-name file dir)))
+            (if (file-directory-p path)
+                (load-directory-files path)
+              (when (string-match "^\\(.+\.el\\)$" file)
+                (let ((compiled (expand-file-name (concat file "c") dir)))
+                  (unless (file-exists-p compiled)
+                    (byte-compile-file path))
+                  (load-file compiled))))))
+        (cddr (directory-files dir))))
+
+(byte-recompile-directory init-dir)
+(load-directory-files init-dir)
+
+(defun require-elisp-packages ()
+  "Add custom elisp packages to the load path and require
+them. This assumes that the subdirectory name in LISP-DIR and
+PACKAGE are the same."
+  (mapc (lambda (package)
+          (add-to-list 'load-path (concat lisp-dir package "/"))
+          (require (intern package)))
+        (cddr (directory-files lisp-dir))))
+
+(when (file-exists-p lisp-dir)
+  (require-elisp-packages))
