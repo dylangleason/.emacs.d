@@ -9,7 +9,6 @@
               ("C-c C-b" . js-send-buffer-and-go)
               ("C-c b" . js-send-buffer)
               ("C-c l" . js-load-file-and-go))
-  :hook (before-save . remove-tabs)
   :mode "\\.js\\'"
   :config
   (progn
