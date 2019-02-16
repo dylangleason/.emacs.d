@@ -8,23 +8,27 @@
     (cmake-project-mode)))
 
 (defun my-c-mode-common-hook ()
-  (setq c-basic-offset 4
-        indent-tabs-mode nil
-        flycheck-mode t)
-  (c-set-offset 'case-label '+))
+  (setq flycheck-mode t
+        indent-tabs-mode nil))
+
+(setq my-c-style-alist '((c-basic-offset . 4)
+                         (c-offsets-alist (case-label . +))))
+
+(c-add-style "my-c-style" (cons "k&r" my-c-style-alist))
+(c-add-style "my-c++-style" (cons "stroustrup" my-c-style-alist))
+(c-add-style "my-d-style" (cons "bsd" my-c-style-alist))
 
 (defun my-c-mode-hook ()
-  (c-set-style "k&r")
+  (c-set-style "my-c-style")
   (set (make-local-variable 'compile-command) "cmake"))
 
 (defun my-c++-mode-hook ()
-  (c-set-style "stroustrup")
+  (c-set-style "my-c++-style")
   (set (make-local-variable 'compile-command) "cmake"))
 
 (defun my-d-mode-hook ()
-  (c-set-style "bsd")
-  (set (make-local-variable 'compile-command) "dmd")
-  (setq c-basic-offset 4))
+  (c-set-style "my-d-style")
+  (set (make-local-variable 'compile-command) "dmd"))
 
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 
