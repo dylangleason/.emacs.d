@@ -30,6 +30,10 @@
 (use-package helm-ag
   :after (helm))
 
+(use-package helm-dash
+  :after (helm)
+  :config (setq helm-dash-browser-func 'eww))
+
 (use-package helm-projectile
   :after (helm projectile)
   :config
@@ -78,7 +82,7 @@
   :hook (before-save . whitespace-cleanup)
   :config
   (progn
-    (setq whitespace-style '(empty face trailing tab-mark))
+    (setq whitespace-style '(empty face tab-mark))
     (global-whitespace-mode 1)))
 
 (use-package yaml-mode

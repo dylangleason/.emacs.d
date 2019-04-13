@@ -1,29 +1,26 @@
-(use-package color-theme)
-
-(use-package color-theme-modern)
+(use-package eshell-git-prompt
+  :config (eshell-git-prompt-use-theme 'robbyrussell))
 
 (use-package color-theme-approximate
+  :if (string-equal system-type "gnu/linux")
   :config
   (progn
     (autoload 'color-theme-approximate-on "color-theme-approximate")
     (color-theme-approximate-on)))
 
-(use-package eshell-git-prompt
-  :config (eshell-git-prompt-use-theme 'robbyrussell))
-
-(use-package nord-theme
+(use-package color-theme-sanityinc-tomorrow
   :init
-  (setq nord-comment-brightness 10
-        nord-region-highlight "default")
-  :hook (after-init . (lambda () (enable-theme 'nord)))
-  :config (load-theme 'nord t))
-
-(defun default-theme-hook ()
-  (add-to-list 'default-frame-alist '(background-color . "black"))
-  (add-to-list 'default-frame-alist '(foreground-color . "white")))
-
-(when (not (package-installed-p 'color-theme))
-  (add-hook 'after-init-hook 'default-theme-hook))
+  (load-theme 'sanityinc-tomorrow-night t nil)
+  :config
+  (when (not (display-graphic-p))
+    (let ((background-color "#303030"))
+      (set-face-attribute 'mode-line nil
+                          :background background-color)
+      (set-face-attribute 'region nil
+                          :background background-color)
+      (set-face-attribute 'vertical-border nil
+                          :foreground "#1a1a1a"
+                          :background background-color))))
 
 (defvar my-projectile-mode-line
   '(:propertize

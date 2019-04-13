@@ -76,24 +76,9 @@ files and compile for subsequent loads."
           (let ((path (expand-file-name file dir)))
             (if (file-directory-p path)
                 (load-directory-files path)
-              (when (string-match "^\\(.+\.el\\)$" file)
-                (let ((compiled (expand-file-name (concat file "c") dir)))
-                  (unless (file-exists-p compiled)
-                    (byte-compile-file path))
-                  (load-file compiled))))))
+              (when (string-match "^\\(.+\.elc\\)$" file)
+                (load-file path)))))
         (cddr (directory-files dir))))
 
-(byte-recompile-directory init-dir)
+(byte-recompile-directory init-dir 0)
 (load-directory-files init-dir)
-
-(defun require-elisp-packages ()
-  "Add custom elisp packages to the load path and require
-them. This assumes that the subdirectory name in LISP-DIR and
-PACKAGE are the same."
-  (mapc (lambda (package)
-          (add-to-list 'load-path (concat lisp-dir package "/"))
-          (require (intern package)))
-        (cddr (directory-files lisp-dir))))
-
-(when (file-exists-p lisp-dir)
-  (require-elisp-packages))
