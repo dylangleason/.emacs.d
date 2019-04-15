@@ -3,6 +3,7 @@
 *.elc
 *.bak
 .mc-lists.el
+.org*
 *custom.el
 geiser-history.*
 auto-save-list

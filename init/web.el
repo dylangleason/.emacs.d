@@ -1,6 +1,5 @@
 (use-package web-mode
   :mode "\\.html?\\'"
-  :hook (before-save . remove-tabs)
   :config
   (setq web-mode-css-indent-offset 2
         web-mode-code-indent-offset 2

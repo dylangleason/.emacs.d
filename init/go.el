@@ -1,7 +1,8 @@
 (defun my-go-mode-hook ()
-  (setq flycheck-mode t)
-  (setq indent-tabs-mode t gofmt-command "goimports")
-  (setq whitespace-style '(empty lines-tail trailing)))
+  (setq flycheck-mode t
+        indent-tabs-mode t
+        gofmt-command "goimports"
+        whitespace-style '(empty lines-tail trailing)))
 
 (use-package go-mode
   :hook ((go-mode . my-go-mode-hook)
