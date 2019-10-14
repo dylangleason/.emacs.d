@@ -47,9 +47,9 @@
   :config
   (progn
     (unless (rtags-executable-find "rc")
-      (error "rc is not installed"))
+      (warn "rc is not installed"))
     (unless (rtags-executable-find "rdm")
-      (error "rdm is not installed"))
+      (warn "rdm is not installed"))
     (rtags-enable-standard-keybindings)
     (setq rtags-use-helm t)
     (add-hook 'kill-emacs-hook 'rtags-quit-rdm)))

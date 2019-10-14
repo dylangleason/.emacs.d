@@ -1,12 +1,12 @@
 (use-package auto-complete
-  :load-path "~/.emacs.d/lisp"
+  :load-path "~/.emacs.d/ac-dict"
   :config
   (progn
-    (add-to-list 'ac-dictionary-directories "~/.emacs.d/lisp/ac-dict")
+    (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
     (ac-config-default)))
 
 (use-package ac-etags
-  :after (autocomplete)
+  :after (auto-complete)
   :config
   (progn
     (custom-set-variables
@@ -15,38 +15,22 @@
       '(progn
          (ac-etags-setup)))))
 
-(use-package flycheck)
-
-(use-package flycheck-inline)
-
-(use-package helm
+(use-package exec-path-from-shell
+  :init
+  (setq exec-path-from-shell-check-startup-files nil)
   :config
   (progn
-    (helm-mode 1)
-    (setq helm-split-window-inside-p t)
-    (global-set-key (kbd "M-x") 'helm-M-x)
-    (global-set-key (kbd "C-x C-f") 'helm-find-files)))
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "GOPATH")))
 
-(use-package helm-ag
-  :after (helm))
+(use-package flycheck)
+(use-package flycheck-inline)
 
-(use-package helm-dash
-  :after (helm)
-  :config (setq helm-dash-browser-func 'eww))
+(use-package graphviz-dot-mode)
 
-(use-package helm-projectile
-  :after (helm projectile)
-  :config
-  (helm-projectile-on))
-
-(use-package helm-flx
-  :init (helm-flx-mode +1)
-  :after (helm)
-  :config
-  (setq helm-flx-for-helm-find-files t
-        helm-flx-for-helm-locate t))
-
-(use-package magit)
+(use-package magit
+  :init
+  (bind-key "C-x g" 'magit-status))
 
 (use-package multiple-cursors
   :bind (("C-S-c C-S-c" . mc/edit-lines)
@@ -66,6 +50,8 @@
         (setq multi-term-program zsh)
       (setq multi-term-program bash))))
 
+(use-package neotree)
+
 (use-package projectile
   :init
   (bind-key "C-c p" 'projectile-command-map)
@@ -82,7 +68,7 @@
   :hook (before-save . whitespace-cleanup)
   :config
   (progn
-    (setq whitespace-style '(empty face tab-mark))
+    (setq whitespace-style '(face tab-mark))
     (global-whitespace-mode 1)))
 
 (use-package yaml-mode

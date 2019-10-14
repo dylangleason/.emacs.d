@@ -1,6 +1,6 @@
 (defun my-ruby-mode-hook ()
   (add-to-list 'ac-modes 'enh-ruby-mode)
-  (add-to-list 'ac-sources 'ac-source-etags)
+  (ac-etags-ac-setup)
   (flycheck-mode)
   (rubocop-mode)
   (yas-minor-mode))
@@ -14,6 +14,9 @@
 
 (use-package inf-ruby
   :after (enh-ruby-mode))
+
+(use-package ac-inf-ruby
+  :after (inf-ruby))
 
 (use-package projectile-rails
   :after (enh-ruby-mode))
