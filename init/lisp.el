@@ -23,7 +23,8 @@
   (setq inferior-lisp-program "/usr/local/bin/sbcl")
   (setq slime-protocol-version 'ignore)
   (slime-setup '(slime-repl slime-asdf slime-fancy))
-  (add-hook 'slime-mode-hook (paredit-mode t)))
+  (add-hook 'slime-mode-hook (paredit-mode t))
+  (add-hook 'slime-repl-mode-hook (paredit-mode t)))
 
 ;;; Setup Clojure and CIDER
 
@@ -61,3 +62,4 @@
         geiser-repl-history-filename "~/.emacs.d/geiser-history"))
 
 (add-hook 'scheme-mode-hook 'my-scheme-mode-hook)
+(add-hook 'geiser-repl-mode-hook (lambda () (paredit-mode t)))
