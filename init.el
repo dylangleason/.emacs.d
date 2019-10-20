@@ -17,7 +17,8 @@
       delete-old-versions t
       kept-new-versions 20
       kept-old-versions 10
-      load-prefer-newer t)
+      load-prefer-newer t
+      gc-cons-threshold (* 1024 1024 20))
 
 (setq-default indent-tabs-mode nil)
 
