@@ -11,6 +11,9 @@
 (use-package go-autocomplete
   :after (go-mode))
 
+(use-package go-rename
+  :after (go-mode))
+
 (use-package flycheck-gometalinter
   :after (flycheck go-mode)
   :config
