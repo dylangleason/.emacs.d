@@ -41,6 +41,12 @@
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
+;;; MacOS settings
+
+(when (memq window-system '(mac ns))
+  (add-to-list 'load-path "/Applications/Emacs.app")
+  (setq mac-option-modifier 'meta))
+
 ;;; Dired configurations
 
 (put 'dired-find-alternate-file 'disabled nil)
