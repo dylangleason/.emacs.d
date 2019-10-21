@@ -12,14 +12,22 @@
   :init
   (load-theme 'sanityinc-tomorrow-night t nil)
   :config
-  (when (not (display-graphic-p))
-    (let ((background-color "#303030"))
+  (unless (display-graphic-p)
+    (let ((background-color "color-236"))
+      (set-face-attribute 'magit-diff-file-heading-highlight nil
+                          :background background-color)
+      (set-face-attribute 'magit-diff-file-heading-highlight nil
+                          :background background-color)
+      (set-face-attribute 'magit-diff-hunk-heading nil
+                          :background background-color)
+      (set-face-attribute 'magit-diff-hunk-heading-highlight nil
+                          :background background-color)
       (set-face-attribute 'mode-line nil
                           :background background-color)
       (set-face-attribute 'region nil
                           :background background-color)
       (set-face-attribute 'vertical-border nil
-                          :foreground "#1a1a1a"
+                          :foreground "color-234"
                           :background background-color))))
 
 (defvar my-projectile-mode-line
