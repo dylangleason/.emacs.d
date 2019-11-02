@@ -56,11 +56,8 @@
   :init
   (bind-key "C-c p" 'projectile-command-map)
   :config
-  (progn
-    (projectile-mode 1)
-    (setq projectile-enable-caching t
-          projectile-indexing-method 'native
-          projectile-require-project-root t)))
+  (projectile-mode 1)
+  (setq projectile-require-project-root t))
 
 (use-package undo-tree)
 
