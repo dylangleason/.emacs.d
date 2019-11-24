@@ -51,8 +51,7 @@
 
 (put 'dired-find-alternate-file 'disabled nil)
 
-;;; Load files in init directory, including helper functions,
-;;; packages, and language specific configurations.
+;;; Initialize packages and load files in init directory
 
 (require 'package)
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
@@ -69,23 +68,25 @@
   (require 'use-package)
   (setq use-package-always-ensure t))
 
-(defun load-user-file (file dir)
-  "Load a user file interactively
-FILE the name of the file to load"
-  (interactive "f")
-  (load-file (expand-file-name file dir)))
+(defun load-el-file (path file)
+  (when (string-match "^\\(.+\.el\\)$" file)
+    (load-file path)))
 
-(defun load-directory-files (dir)
-  "Recursively load files in DIR. Checks to see if byte-compiled
-lisp files exist and will load those. Otherwise, load normal lisp
-files and compile for subsequent loads."
+(defun load-elc-file (path file)
+  (when (string-match "^\\(.+\.elc\\)$" file)
+    (load-file path)))
+
+(defun load-files-recursively (dir byte-compiled-p)
   (mapc (lambda (file)
           (let ((path (expand-file-name file dir)))
-            (if (file-directory-p path)
-                (load-directory-files path)
-              (when (string-match "^\\(.+\.elc\\)$" file)
-                (load-file path)))))
+            (cond ((file-directory-p path) (load-files-recursively path))
+                  (byte-compiled-p (load-elc-file path file))
+                  (t (load-el-file path file)))))
         (cddr (directory-files dir))))
 
-(byte-recompile-directory init-dir 0)
-(load-directory-files init-dir)
+(defun load-init-files ()
+  (load-files-recursively init-dir nil))
+
+(defun load-init-files-compiled ()
+  (byte-recompile-directory init-dir 0)
+  (load-files-recursively init-dir t))
