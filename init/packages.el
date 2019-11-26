@@ -1,27 +1,25 @@
 (use-package auto-complete
   :load-path "~/.emacs.d/ac-dict"
   :config
-  (progn
-    (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-    (ac-config-default)))
+  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+  (ac-config-default))
 
 (use-package ac-etags
   :after (auto-complete)
   :config
-  (progn
-    (custom-set-variables
-     '(ac-etags-requires 1))
-    (eval-after-load "etags"
-      '(progn
-         (ac-etags-setup)))))
+  (custom-set-variables
+   '(ac-etags-requires 1))
+  (eval-after-load "etags"
+    '(progn
+       (ac-etags-setup))))
 
 (use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
   :init
   (setq exec-path-from-shell-check-startup-files nil)
   :config
-  (progn
-    (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-env "GOPATH")))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "GOPATH"))
 
 (use-package flycheck)
 (use-package flycheck-inline)
@@ -31,6 +29,13 @@
 (use-package magit
   :init
   (bind-key "C-x g" 'magit-status))
+
+(use-package markdown-mode
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 
 (use-package multiple-cursors
   :bind (("C-S-c C-S-c" . mc/edit-lines)
@@ -64,9 +69,8 @@
 (use-package whitespace
   :hook (before-save . whitespace-cleanup)
   :config
-  (progn
-    (setq whitespace-style '(face tab-mark))
-    (global-whitespace-mode 1)))
+  (setq whitespace-style '(face tab-mark))
+  (global-whitespace-mode 1))
 
 (use-package yaml-mode
   :mode "\\.yml\\'")

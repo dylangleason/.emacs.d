@@ -67,6 +67,7 @@
 (eval-when-compile
   (require 'use-package)
   (setq use-package-always-ensure t))
+(require 'bind-key)
 
 (defun load-el-file (path file)
   (when (string-match "^\\(.+\.el\\)$" file)
