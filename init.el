@@ -69,25 +69,19 @@
   (setq use-package-always-ensure t))
 (require 'bind-key)
 
-(defun load-el-file (path file)
-  (when (string-match "^\\(.+\.el\\)$" file)
-    (load-file path)))
-
-(defun load-elc-file (path file)
-  (when (string-match "^\\(.+\.elc\\)$" file)
-    (load-file path)))
-
-(defun load-files-recursively (dir byte-compiled-p)
+(defun load-files-recursively (dir)
   (mapc (lambda (file)
           (let ((path (expand-file-name file dir)))
-            (cond ((file-directory-p path) (load-files-recursively path))
-                  (byte-compiled-p (load-elc-file path file))
-                  (t (load-el-file path file)))))
-        (cddr (directory-files dir))))
+            (if (file-directory-p path)
+                (load-files-recursively path)
+              (load path))))
+        (delete-dups
+         (mapcar (lambda (str)
+                   (car (split-string str "\\.el")))
+                 (cddr (directory-files dir))))))
+
+(defun load-init-file (file)
+  (load (concat init-dir file)))
 
 (defun load-init-files ()
-  (load-files-recursively init-dir nil))
-
-(defun load-init-files-compiled ()
-  (byte-recompile-directory init-dir 0)
-  (load-files-recursively init-dir t))
+  (load-files-recursively init-dir))
