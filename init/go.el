@@ -1,12 +1,13 @@
-(defun my-go-mode-hook ()
-  (setq flycheck-mode t
-        indent-tabs-mode t
-        gofmt-command "goimports"
-        whitespace-style '(empty lines-tail trailing)))
-
 (use-package go-mode
-  :hook ((go-mode . my-go-mode-hook)
-         (before-save . gofmt-before-save)))
+  :defines (gofmt-command flycheck-mode whitespace-style)
+  :init
+  (setq gofmt-command "goimports")
+  :hook
+  ((go-mode . (lambda ()
+                (setq-local flycheck-mode t)
+                (setq-local indent-tabs-mode t)
+                (setq-local whitespace-style '(empty lines-tail trailing))))
+   (before-save . gofmt-before-save)))
 
 (use-package go-autocomplete
   :after (go-mode))
@@ -16,9 +17,9 @@
 
 (use-package flycheck-gometalinter
   :after (flycheck go-mode)
+  :init
+  (setq flycheck-gometalinter-fast t
+        flycheck-gometalinter-vendor t
+        flycheck-gometalinter-enable-linters '("golint"))
   :config
-  (progn
-    (flycheck-gometalinter-setup)
-    (setq flycheck-gometalinter-fast t
-          flycheck-gometalinter-vendor t
-          flycheck-gometalinter-enable-linters '("golint"))))
+  (flycheck-gometalinter-setup))

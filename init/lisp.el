@@ -9,13 +9,19 @@
 (defun my-lisp-mode-common-hook ()
   (paredit-mode t)
   (prettify-lambda)
-  (rainbow-delimiters-mode-enable))
+  (rainbow-delimiters-mode-enable)
+  (eldoc-mode))
 
 (add-hook 'emacs-lisp-mode-hook 'my-lisp-mode-common-hook)
 (add-hook 'lisp-mode-hook 'my-lisp-mode-common-hook)
 (add-hook 'lisp-interaction-mode-hook 'my-lisp-mode-common-hook)
 
 ;;; Setup SBCL and slime, assuming slime is installed
+
+(eval-when-compile
+  (defvar inferior-lisp-program)
+  (defvar slime-protocol-version)
+  (defun slime-setup (lst)))
 
 (when (file-exists-p "~/quicklisp/slime-helper.el")
   (load (expand-file-name "~/quicklisp/slime-helper.el"))
@@ -28,10 +34,8 @@
 
 ;;; Setup Clojure and CIDER
 
-(defun my-cider-repl-mode-hook ()
-  (setq-local nrepl-hide-special-buffers t)
-  (setq-local cider-repl-display-help-banner nil)
-  (eldoc-mode))
+;; (defun my-cider-repl-mode-hook ()
+;;   )
 
 (use-package clojure-mode
   :after (paredit)
@@ -39,8 +43,12 @@
 
 (use-package cider
   :after (clojure-mode)
-  :hook ((cider-mode . my-lisp-mode-common-hook)
-         (cider-repl-mode . my-cider-repl-mode-hook)))
+  :hook
+  ((cider-mode . my-lisp-mode-common-hook)
+   (cider-repl-mode . (lambda ()
+                        (my-lisp-mode-common-hook)
+                        (setq-local nrepl-hide-special-buffers t)
+                        (setq-local cider-repl-display-help-banner nil)))))
 
 (defadvice 4clojure-open-question (around 4clojure-open-question-around)
   "Start a cider/nREPL connection if one hasn't already been
@@ -51,15 +59,17 @@
 
 ;;; Configure Scheme / Racket
 
-(use-package geiser
-  :after (scheme paredit))
+(add-hook 'scheme-mode-hook 'my-lisp-mode-common-hook)
 
-(defun my-scheme-mode-hook ()
-  (my-lisp-mode-common-hook)
+(use-package geiser
+  :defines (geiser-chez-binary
+            geiser-guile-binary
+            geiser-active-implementations
+            geiser-repl-history-filename)
+  :after (scheme paredit)
+  :hook (geiser-repl-mode . my-lisp-mode-common-hook)
+  :init
   (setq geiser-chez-binary "/usr/local/bin/chez"
         geiser-guile-binary "/usr/local/bin/guile"
         geiser-active-implementations '(chez chicken guile)
         geiser-repl-history-filename "~/.emacs.d/geiser-history"))
-
-(add-hook 'scheme-mode-hook 'my-scheme-mode-hook)
-(add-hook 'geiser-repl-mode-hook (lambda () (paredit-mode t)))

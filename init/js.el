@@ -10,22 +10,20 @@
               ("C-c b" . js-send-buffer)
               ("C-c l" . js-load-file-and-go))
   :mode "\\.js\\'"
-  :config
-  (progn
-    (autoload 'js2-mode "js2-mode" nil t)
-    (setq js-indent-level 2
-          indent-tabs-mode nil
-          inferior-js-program-command "/usr/local/bin/node")
-    (setenv "NODE_NO_READLINE" "1")))
+  :interpreter ("/usr/local/bin/node" . js2-mode) 
+  :init
+  (setenv "NODE_NO_READLINE" "1")
+  (setq js-indent-level 2
+        indent-tabs-mode nil))
+
 
 (use-package coffee-mode
-  :init
-  (progn
-    (setq whitespace-style '(
-                             empty
-                             indentation
-                             lines-tail
-                             space-before-tab
-                             space-after-tab
-                             tabs-mark
-                             ))))
+  :defines whitespace-style
+  :hook
+  (coffee-mode . (lambda ()
+                   (setq-local whitespace-style '(empty
+                                                  indentation
+                                                  lines-tail
+                                                  space-before-tab
+                                                  space-after-tab
+                                                  tabs-mark)))))
