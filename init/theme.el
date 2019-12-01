@@ -1,34 +1,18 @@
+(unless (display-graphic-p)
+  (add-to-list 'custom-theme-load-path (concat emacs-dir "themes")))
+
 (use-package eshell-git-prompt
   :config (eshell-git-prompt-use-theme 'robbyrussell))
 
 (use-package color-theme-approximate
   :if (string-equal system-type "gnu/linux")
   :config
-  (progn
-    (autoload 'color-theme-approximate-on "color-theme-approximate")
-    (color-theme-approximate-on)))
+  (autoload 'color-theme-approximate-on "color-theme-approximate")
+  (color-theme-approximate-on))
 
 (use-package color-theme-sanityinc-tomorrow
-  :init
-  (load-theme 'sanityinc-tomorrow-night t nil)
   :config
-  (unless (display-graphic-p)
-    (let ((background-color "color-236"))
-      (set-face-attribute 'magit-diff-file-heading-highlight nil
-                          :background background-color)
-      (set-face-attribute 'magit-diff-file-heading-highlight nil
-                          :background background-color)
-      (set-face-attribute 'magit-diff-hunk-heading nil
-                          :background background-color)
-      (set-face-attribute 'magit-diff-hunk-heading-highlight nil
-                          :background background-color)
-      (set-face-attribute 'mode-line nil
-                          :background background-color)
-      (set-face-attribute 'region nil
-                          :background background-color)
-      (set-face-attribute 'vertical-border nil
-                          :foreground "color-234"
-                          :background background-color))))
+  (load-theme 'sanityinc-tomorrow-night t nil))
 
 (defvar my-projectile-mode-line
   '(:propertize
