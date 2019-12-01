@@ -6,25 +6,26 @@
 
 ;;; Set global variables
 
-(setq lexical-bindings t
-      default-terminal-coding-system 'utf-8
-      inhibit-startup-message t
-      custom-file (concat init-dir "custom.el")
-      case-fold-search nil
+(setq backup-by-copying t
       backup-directory-alist `(("." . ,(concat emacs-dir "backup")))
-      backup-by-copying t
-      version-control t
+      custom-file (concat init-dir "custom.el")
+      default-terminal-coding-system 'utf-8
       delete-old-versions t
-      kept-new-versions 20
-      kept-old-versions 10
+      gc-cons-threshold (* 1024 1024 20)
+      inhibit-startup-message t
+      kept-new-versions 5
+      kept-old-versions 5
       load-prefer-newer t
-      gc-cons-threshold (* 1024 1024 20))
+      ring-bell-function 'ignore
+      version-control t)
 
-(setq-default indent-tabs-mode nil)
+;;; Set global defaults for buffer-local variables
+
+(setq-default case-fold-search nil
+              indent-tabs-mode nil)
 
 ;;; Set global keybindings
 
-(global-set-key "\C-x\C-m" 'execute-extended-command)  ; M-x
 (global-set-key "\C-c\C-m" 'execute-extended-command)  ; M-x
 (global-set-key "\C-w" 'backward-kill-word)            ; M-DEL
 (global-set-key "\C-x\C-k" 'kill-region)               ; C-k
