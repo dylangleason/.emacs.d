@@ -14,11 +14,13 @@
        (ac-etags-setup))))
 
 (use-package exec-path-from-shell
+  :if (memq system-type '(darwin gnu/linux))
   :init
   (setq exec-path-from-shell-check-startup-files nil)
   :config
   (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "GOPATH"))
+  (exec-path-from-shell-copy-env "GOPATH")
+  (exec-path-from-shell-copy-env "ZSH"))
 
 (use-package flycheck)
 (use-package flycheck-inline)
@@ -26,8 +28,7 @@
 (use-package graphviz-dot-mode)
 
 (use-package magit
-  :init
-  (bind-key "C-x g" 'magit-status))
+  :bind ("C-x g" . magit-status))
 
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
@@ -47,28 +48,25 @@
          ("C-c [" . multi-term-prev)
          ("C-c ]" . multi-term-next))
   :config
-  (let ((zsh  "/bin/zsh")
-        (bash "/bin/bash"))
-    (set-terminal-coding-system 'utf-8)
-    (if (file-exists-p zsh)
-        (setq multi-term-program zsh)
-      (setq multi-term-program bash))))
+  (set-terminal-coding-system 'utf-8))
 
-(use-package neotree)
+(use-package neotree
+  :bind ("C-c n" . neotree-toggle))
 
 (use-package projectile
+  :bind ("C-c p" . projectile-command-map)
   :init
-  (bind-key "C-c p" 'projectile-command-map)
+  (setq projectile-require-project-root t)
   :config
-  (projectile-mode 1)
-  (setq projectile-require-project-root t))
+  (projectile-mode 1))
 
 (use-package undo-tree)
 
 (use-package whitespace
   :hook (before-save . whitespace-cleanup)
-  :config
+  :init
   (setq whitespace-style '(face tab-mark))
+  :config
   (global-whitespace-mode 1))
 
 (use-package yaml-mode
