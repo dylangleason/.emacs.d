@@ -54,8 +54,8 @@
   :bind ("C-c n" . neotree-toggle))
 
 (use-package projectile
-  :bind ("C-c p" . projectile-command-map)
   :init
+  (bind-key ("C-c p" . projectile-command-map))
   (setq projectile-require-project-root t)
   :config
   (projectile-mode 1))
