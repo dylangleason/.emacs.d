@@ -55,7 +55,7 @@
 
 (use-package projectile
   :init
-  (bind-key ("C-c p" . projectile-command-map))
+  (bind-key "C-c p" 'projectile-command-map)
   (setq projectile-require-project-root t)
   :config
   (projectile-mode 1))
