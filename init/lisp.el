@@ -1,3 +1,8 @@
+(eval-when-compile
+  (defvar ielm-noisy))
+
+(setq ielm-noisy nil)
+
 (defun prettify-lambda ()
   (setq prettify-symbols-alist '(("lambda" . 955))))
 
@@ -6,8 +11,6 @@
   (prettify-lambda)
   (rainbow-delimiters-mode-enable)
   (eldoc-mode))
-
-(setq ielm-noisy nil)
 
 (add-hook 'emacs-lisp-mode-hook 'my-lisp-mode-common-hook)
 (add-hook 'ielm-mode-hook 'my-lisp-mode-common-hook)

@@ -63,8 +63,8 @@
   :after (helm rtags)
   :init (setq rtags-display-result-backend 'helm))
 
-(use-package ac-rtags
-  :after (auto-complete rtags)
+(use-package company-rtags
+  :after (company rtags)
   :init (setq rtags-completions-enabled t))
 
 (use-package flycheck-rtags

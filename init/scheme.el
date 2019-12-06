@@ -13,11 +13,3 @@
         geiser-guile-binary "guile"
         geiser-active-implementations '(chez guile)
         geiser-repl-history-filename "~/.emacs.d/geiser-history"))
-
-(use-package ac-geiser
-  :after (geiser)
-  :hook ((geiser-mode . ac-geiser-setup)
-         (geiser-repl-mode . ac-geiser-setup))
-  :config
-  (eval-after-load "autocomplete"
-    '(add-to-list 'ac-modes 'geiser-repl-mode)))

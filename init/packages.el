@@ -1,17 +1,5 @@
-(use-package auto-complete
-  :load-path "~/.emacs.d/ac-dict"
-  :config
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-  (ac-config-default))
-
-(use-package ac-etags
-  :after (auto-complete)
-  :config
-  (custom-set-variables
-   '(ac-etags-requires 1))
-  (eval-after-load "etags"
-    '(progn
-       (ac-etags-setup))))
+(use-package company
+  :hook (after-init . global-company-mode))
 
 (use-package exec-path-from-shell
   :if (memq system-type '(darwin gnu/linux))
