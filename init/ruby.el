@@ -2,8 +2,6 @@
   (defun rubocop-build-requires ()))
 
 (defun my-ruby-mode-hook ()
-  (add-to-list 'ac-modes 'enh-ruby-mode)
-  (ac-etags-ac-setup)
   (flycheck-mode)
   (rubocop-mode)
   (yas-minor-mode))
@@ -16,23 +14,23 @@
 
 (use-package enh-ruby-mode
   :mode "\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'"
-  :interpreter "ruby"
   :hook (enh-ruby-mode . my-ruby-mode-hook)
-  :config
+  :interpreter "ruby"
+  :init
   (setq enh-ruby-deep-indent-paren nil))
 
 (use-package inf-ruby
   :after (enh-ruby-mode))
 
-(use-package ac-inf-ruby
-  :after (inf-ruby))
-
 (use-package projectile-rails
   :after (enh-ruby-mode))
 
 (use-package robe
-  :hook ((enh-ruby-mode . robe-mode)
-         (enh-ruby-mode . ac-robe-setup)))
+  :hook (enh-ruby-mode . robe-mode)
+  :defines company-backends
+  :config
+  (eval-after-load 'company-mode
+    '(add-to-list 'company-backends 'company-robe)))
 
 (use-package rspec-mode
   :after (enh-ruby-mode))

@@ -8,10 +8,14 @@
   (setq inferior-lisp-program "/usr/local/bin/sbcl"
         slime-protocol-version 'ignore)
   :config
-  (slime-setup '(slime-repl slime-asdf slime-fancy helm-slime)))
+  (slime-setup '(slime-repl
+                 slime-asdf
+                 slime-fancy
+                 helm-slime
+                 slime-company)))
 
-(use-package ac-slime
-  :after (auto-complete slime))
+(use-package slime-company
+  :after (slime company))
 
 (use-package helm-slime
   :after (helm slime))
