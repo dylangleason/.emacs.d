@@ -9,8 +9,12 @@
                 (setq-local whitespace-style '(empty lines-tail trailing))))
    (before-save . gofmt-before-save)))
 
-(use-package go-autocomplete
-  :after (go-mode))
+(use-package company-go
+  :after (company go-mode)
+  :defines company-backends
+  :config
+  (eval-after-load 'company
+    '(add-to-list 'company-backends 'go-company)))
 
 (use-package go-rename
   :after (go-mode))
