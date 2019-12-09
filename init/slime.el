@@ -5,7 +5,7 @@
   :hook ((slime-mode . my-lisp-mode-common-hook)
          (slime-repl-mode . my-lisp-mode-common-hook))
   :init
-  (setq inferior-lisp-program "/usr/local/bin/sbcl"
+  (setq inferior-lisp-program "sbcl"
         slime-protocol-version 'ignore)
   :config
   (slime-setup '(slime-repl
