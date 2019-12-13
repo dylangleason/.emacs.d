@@ -14,7 +14,7 @@
   :defines company-backends
   :config
   (eval-after-load 'company
-    '(add-to-list 'company-backends 'go-company)))
+    '(add-to-list 'company-backends 'company-go)))
 
 (use-package go-rename
   :after (go-mode))
