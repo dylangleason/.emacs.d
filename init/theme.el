@@ -1,9 +1,6 @@
 (unless (display-graphic-p)
   (add-to-list 'custom-theme-load-path (concat emacs-dir "themes")))
 
-(use-package eshell-git-prompt
-  :config (eshell-git-prompt-use-theme 'robbyrussell))
-
 (use-package color-theme-approximate
   :if (string-equal system-type "gnu/linux")
   :config
