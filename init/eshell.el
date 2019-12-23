@@ -6,7 +6,7 @@
 ;; see https://emacs.stackexchange.com/questions/12503/how-to-clear-the-eshell
 (defun run-this-in-eshell (cmd)
   "Run CMD in eshell."
-  (with-current-buffer "*eshell*"
+  (with-current-buffer (buffer-name (current-buffer))
     (eshell-kill-input)
     (goto-char (point-max))
     (insert cmd)
