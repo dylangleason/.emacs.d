@@ -15,7 +15,9 @@
                  slime-company)))
 
 (use-package slime-company
-  :after (slime company))
+  :after (slime company)
+  :config
+  (setq slime-company-completion 'fuzzy))
 
 (use-package helm-slime
   :after (helm slime))
