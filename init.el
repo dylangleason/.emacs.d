@@ -12,6 +12,7 @@
       default-terminal-coding-system 'utf-8
       delete-old-versions t
       gc-cons-threshold (* 1024 1024 20)
+      gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"
       inhibit-startup-message t
       kept-new-versions 5
       kept-old-versions 5
