@@ -24,17 +24,19 @@
 (setq-default case-fold-search nil
               indent-tabs-mode nil)
 
-;;; Set global keybindings
-
-(global-set-key "\C-c\C-m" 'execute-extended-command)  ; M-x
-(global-set-key "\C-w" 'backward-kill-word)            ; M-DEL
-(global-set-key "\C-x\C-k" 'kill-region)               ; C-k
-(global-set-key "\C-c\C-k" 'kill-region)               ; C-k
-(global-set-key (kbd "RET") 'newline-and-indent)
-(global-set-key "\C-c\C-c" 'comment-or-uncomment-region)
+;;; Global settings
 
 (global-font-lock-mode 1)
 (global-prettify-symbols-mode 1)
+
+;;; Set global keybindings
+
+(global-set-key (kbd "C-c C-m") 'execute-extended-command)  ; M-x
+(global-set-key (kbd "C-w") 'backward-kill-word)            ; M-DEL
+(global-set-key (kbd "C-x C-k") 'kill-region)               ; C-k
+(global-set-key (kbd "C-c C-k") 'kill-region)               ; C-k
+(global-set-key (kbd "RET") 'newline-and-indent)
+(global-set-key (kbd "C-c C-c") 'comment-or-uncomment-region)
 
 ;;; Turn off scroll bars and menus
 
