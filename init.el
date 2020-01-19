@@ -42,6 +42,9 @@
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
+(when (string-match "26" emacs-version)
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode))
+
 ;;; MacOS settings
 
 (when (memq window-system '(mac ns))
