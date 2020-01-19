@@ -1,6 +1,10 @@
 (use-package python
-  :mode ("\\.py\\'" . python-mode)
-  :interpreter ("python" . python-mode))
+  :defines (flycheck-mode flycheck-python-pylint-executable)
+  :hook (python-mode . flycheck-mode)
+  :init
+  (setq flycheck-python-pylint-executable "~/.pyenv/shims/python")
+  :interpreter ("python" . python-mode)
+  :mode ("\\.py\\'" . python-mode))
 
 (use-package elpy
   :defer t
