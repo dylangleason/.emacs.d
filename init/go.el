@@ -4,7 +4,7 @@
   (setq gofmt-command "goimports")
   :hook
   ((go-mode . (lambda ()
-                (setq-local flycheck-mode t)
+                (flycheck-mode)
                 (setq-local indent-tabs-mode t)
                 (setq-local whitespace-style '(empty lines-tail trailing))))
    (before-save . gofmt-before-save)))
