@@ -1,5 +1,5 @@
 (unless (display-graphic-p)
-  (add-to-list 'custom-theme-load-path (concat emacs-dir "themes")))
+  (add-to-list 'custom-theme-load-path (concat dot-emacs-dir "themes")))
 
 (use-package color-theme-approximate
   :if (string-equal system-type "gnu/linux")

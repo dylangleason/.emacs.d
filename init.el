@@ -1,10 +1,9 @@
-(require 'cl-lib)
-
 ;;; Global variables and constants
 
 (defconst dot-emacs-dir "~/.emacs.d/")
 (defconst dot-emacs-init-dir (concat dot-emacs-dir "init/"))
 (defconst dot-emacs-lisp-dir (concat dot-emacs-dir "lisp/"))
+(defconst dot-emacs-theme-dir (concat dot-emacs-dir "themes/"))
 
 (eval-when-compile
   (defvar gnutls-algorithm-priority)
@@ -25,8 +24,6 @@
       ring-bell-function 'ignore
       version-control t)
 
-;;; Set global defaults for buffer-local variables
-
 (setq-default case-fold-search nil
               indent-tabs-mode nil)
 
@@ -34,6 +31,9 @@
 
 (global-font-lock-mode 1)
 (global-prettify-symbols-mode 1)
+
+(when (string-match "26" emacs-version)
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode))
 
 ;;; Set global keybindings
 
@@ -49,9 +49,6 @@
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-
-(when (string-match "26" emacs-version)
-  (add-hook 'prog-mode-hook 'display-line-numbers-mode))
 
 ;;; MacOS settings
 
@@ -75,7 +72,7 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
-(when (not package-archive-contents)
+(unless package-archive-contents
   (package-refresh-contents))
 
 (unless (package-installed-p 'use-package)
@@ -85,8 +82,6 @@
   (require 'use-package)
   (setq use-package-always-ensure t))
 (require 'bind-key)
-
-(load custom-file)
 
 (defun require-init-files ()
   (cl-loop for file in (directory-files dot-emacs-init-dir)
