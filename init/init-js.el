@@ -27,3 +27,5 @@
                                                   space-before-tab
                                                   space-after-tab
                                                   tabs-mark)))))
+
+(provide 'init-js)

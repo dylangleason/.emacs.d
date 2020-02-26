@@ -62,3 +62,5 @@
 
 (use-package yasnippet)
 (use-package yasnippet-snippets :after (yasnippet))
+
+(provide 'init-packages)

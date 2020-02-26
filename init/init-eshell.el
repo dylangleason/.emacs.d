@@ -26,3 +26,5 @@
 
 (use-package eshell-git-prompt
   :config (eshell-git-prompt-use-theme 'robbyrussell))
+
+(provide 'init-eshell)

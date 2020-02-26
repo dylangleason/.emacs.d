@@ -21,3 +21,5 @@
 
 (use-package helm-slime
   :after (helm slime))
+
+(provide 'init-slime)

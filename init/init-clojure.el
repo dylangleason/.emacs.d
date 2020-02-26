@@ -17,3 +17,5 @@
   ad-do-it
   (unless cider-current-clojure-buffer
     (cider-jack-in)))
+
+(provide 'init-clojure)

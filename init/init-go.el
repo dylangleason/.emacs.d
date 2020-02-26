@@ -27,3 +27,5 @@
         flycheck-gometalinter-enable-linters '("golint"))
   :config
   (flycheck-gometalinter-setup))
+
+(provide 'init-go)

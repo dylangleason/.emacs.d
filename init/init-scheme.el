@@ -13,3 +13,5 @@
         geiser-guile-binary "guile"
         geiser-active-implementations '(chez guile)
         geiser-repl-history-filename "~/.emacs.d/geiser-history"))
+
+(provide 'init-scheme)

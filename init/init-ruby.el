@@ -45,3 +45,5 @@
 
 (use-package yari
   :after (enh-ruby-mode))
+
+(provide 'init-ruby)

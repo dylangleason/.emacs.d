@@ -61,3 +61,5 @@
 
 (use-package flycheck-rtags
   :after (flycheck rtags))
+
+(provide 'init-c-cpp)

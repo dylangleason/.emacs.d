@@ -18,3 +18,5 @@
             ;; PostgreSQL-specific.
             (setq sql-prompt-regexp "^[_[:alpha:]]*[=][#>] "
                   sql-prompt-cont-regexp "^[_[:alpha:]]*[-][#>] ")))
+
+(provide 'init-sql)

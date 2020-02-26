@@ -19,3 +19,5 @@
 
 (use-package paredit)
 (use-package rainbow-delimiters)
+
+(provide 'init-lisp)

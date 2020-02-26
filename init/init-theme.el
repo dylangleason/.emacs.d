@@ -24,3 +24,5 @@
                 "  " mode-line-buffer-identification
                 "  " my-projectile-mode-line
                 "  " (vc-mode vc-mode)))
+
+(provide 'init-theme)

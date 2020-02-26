@@ -13,3 +13,5 @@
   (add-to-list 'auto-mode-alist '("\\.http\\'" . restclient-mode)))
 
 (use-package restclient-helm :after (restclient))
+
+(provide 'init-web)

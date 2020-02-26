@@ -24,3 +24,5 @@
   :init
   (setq helm-flx-for-helm-find-files t
         helm-flx-for-helm-locate t))
+
+(provide 'init-helm)

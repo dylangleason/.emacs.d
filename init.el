@@ -1,16 +1,21 @@
-;;; Global constants
+(require 'cl-lib)
 
-(defconst emacs-dir "~/.emacs.d/")
-(defconst init-dir (concat emacs-dir "init/"))
-(defconst lisp-dir (concat emacs-dir "lisp/"))
+;;; Global variables and constants
 
-;;; Set global variables
+(defconst dot-emacs-dir "~/.emacs.d/")
+(defconst dot-emacs-init-dir (concat dot-emacs-dir "init/"))
+(defconst dot-emacs-lisp-dir (concat dot-emacs-dir "lisp/"))
+
+(eval-when-compile
+  (defvar gnutls-algorithm-priority)
+  (defvar mac-option-modifier))
 
 (setq backup-by-copying t
-      backup-directory-alist `(("." . ,(concat emacs-dir "backup")))
-      custom-file (concat init-dir "custom.el")
+      backup-directory-alist `(("." . ,(concat dot-emacs-dir "backup")))
+      custom-file (concat dot-emacs-dir "custom.el")
       default-terminal-coding-system 'utf-8
       delete-old-versions t
+      frame-resize-pixelwise t
       gc-cons-threshold (* 1024 1024 20)
       gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"
       inhibit-startup-message t
@@ -58,6 +63,11 @@
 
 (put 'dired-find-alternate-file 'disabled nil)
 
+;;; load paths
+
+(add-to-list 'load-path dot-emacs-init-dir)
+(add-to-list 'load-path dot-emacs-lisp-dir)
+
 ;;; Initialize packages and load files in init directory
 
 (require 'package)
@@ -76,19 +86,13 @@
   (setq use-package-always-ensure t))
 (require 'bind-key)
 
-(defun load-files-recursively (dir)
-  (mapc (lambda (file)
-          (let ((path (expand-file-name file dir)))
-            (if (file-directory-p path)
-                (load-files-recursively path)
-              (load path))))
-        (delete-dups
-         (mapcar (lambda (str)
-                   (car (split-string str "\\.el")))
-                 (cddr (directory-files dir))))))
+(load custom-file)
 
-(defun load-init-file (file)
-  (load (concat init-dir file)))
-
-(defun load-init-files ()
-  (load-files-recursively init-dir))
+(defun require-init-files ()
+  (cl-loop for file in (directory-files dot-emacs-init-dir)
+           and prev = nil then file
+           do (let ((curr (file-name-sans-extension file)))
+                (unless (or (string-equal curr ".")
+                            (string-equal curr "..")
+                            (string-equal curr (file-name-sans-extension prev)))
+                  (require (intern curr))))))
