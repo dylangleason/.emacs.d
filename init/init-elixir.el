@@ -3,6 +3,4 @@
 (use-package alchemist
   :after (elixir-mode))
 
-(use-package erlang)
-
 (provide 'init-elixir)
