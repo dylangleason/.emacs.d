@@ -15,6 +15,13 @@
 
 (use-package graphviz-dot-mode)
 
+(use-package guix
+  :if (and (eq system-type 'gnu/linux)
+           (file-exists-p "~/.guix-profile"))
+  :config
+  (exec-path-from-shell-copy-env "GUIX_LOCPATH")
+  (exec-path-from-shell-copy-env "GUIX_PROFILE"))
+
 (use-package magit
   :bind ("C-x g" . magit-status))
 
