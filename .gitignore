@@ -1,7 +1,9 @@
 *~
+*.cache
 *.dat
 *.elc
 *.bak
+.lsp*
 .mc-lists.el
 .org*
 *custom.el

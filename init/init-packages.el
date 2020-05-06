@@ -1,6 +1,9 @@
 (use-package company
   :hook (after-init . global-company-mode))
 
+(use-package company-lsp
+  :after (company lsp-mode))
+
 (use-package exec-path-from-shell
   :if (memq system-type '(darwin gnu/linux))
   :init
@@ -21,6 +24,11 @@
   :config
   (exec-path-from-shell-copy-env "GUIX_LOCPATH")
   (exec-path-from-shell-copy-env "GUIX_PROFILE"))
+
+(use-package lsp-mode)
+
+(use-package lsp-treemacs
+  :after (lsp-mode treemacs))
 
 (use-package magit
   :bind ("C-x g" . magit-status))
@@ -54,6 +62,8 @@
   (setq projectile-require-project-root t)
   :config
   (projectile-mode 1))
+
+(use-package treemacs)
 
 (use-package undo-tree)
 

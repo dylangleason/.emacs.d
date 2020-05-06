@@ -13,6 +13,9 @@
   :after (helm)
   :init (setq helm-dash-browser-func 'eww))
 
+(use-package helm-lsp
+  :after (helm lsp-mode))
+
 (use-package helm-projectile
   :after (helm projectile)
   :config

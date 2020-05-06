@@ -4,6 +4,7 @@
 (defun my-ruby-mode-hook ()
   (flycheck-mode)
   (rubocop-mode)
+  (lsp)
   (yas-minor-mode))
 
 (defun my-rubocop-build-command (command path)
@@ -24,13 +25,6 @@
 
 (use-package projectile-rails
   :after (enh-ruby-mode))
-
-(use-package robe
-  :hook (enh-ruby-mode . robe-mode)
-  :defines company-backends
-  :config
-  (eval-after-load 'company-mode
-    '(add-to-list 'company-backends 'company-robe)))
 
 (use-package rspec-mode
   :after (enh-ruby-mode))
