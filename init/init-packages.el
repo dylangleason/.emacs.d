@@ -1,17 +1,15 @@
 (use-package company
   :hook (after-init . global-company-mode))
-
 (use-package company-lsp
   :after (company lsp-mode))
 
 (use-package exec-path-from-shell
   :if (memq system-type '(darwin gnu/linux))
   :init
-  (setq exec-path-from-shell-check-startup-files nil)
+  (setq exec-path-from-shell-arguments nil
+        exec-path-from-shell-check-startup-files nil)
   :config
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "GOPATH")
-  (exec-path-from-shell-copy-env "ZSH"))
+  (exec-path-from-shell-initialize))
 
 (use-package flycheck)
 (use-package flycheck-inline)
@@ -26,7 +24,6 @@
   (exec-path-from-shell-copy-env "GUIX_PROFILE"))
 
 (use-package lsp-mode)
-
 (use-package lsp-treemacs
   :after (lsp-mode treemacs))
 
@@ -46,15 +43,14 @@
          ("C-c C-p" . mc/mark-previous-like-this)
          ("C-c C-a" . mc/mark-all-like-this)))
 
-(use-package multi-term
-  :bind (("C-c t" . multi-term)
-         ("C-c [" . multi-term-prev)
-         ("C-c ]" . multi-term-next))
+(use-package vterm
+  :bind ("C-c t" . vterm)
+  :hook
+  (vterm-mode . (lambda () (setq-local line-spacing nil)))
   :config
   (set-terminal-coding-system 'utf-8))
 
-(use-package neotree
-  :bind ("C-c n" . neotree-toggle))
+(use-package org-present)
 
 (use-package projectile
   :init
@@ -64,6 +60,9 @@
   (projectile-mode 1))
 
 (use-package treemacs)
+(use-package treemacs-projectile
+  :bind ("C-c n" . treemacs)
+  :after (treemacs projectile))
 
 (use-package undo-tree)
 

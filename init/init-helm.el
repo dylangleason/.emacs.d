@@ -11,7 +11,7 @@
 
 (use-package helm-dash
   :after (helm)
-  :init (setq helm-dash-browser-func 'eww))
+  :init (setq dash-browser-func 'eww))
 
 (use-package helm-lsp
   :after (helm lsp-mode))

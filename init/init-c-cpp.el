@@ -22,9 +22,14 @@
 (defun my-c++-mode-hook ()
   (c-set-style "my-c++-style"))
 
+(defun my-d-mode-hook ()
+  (c-set-style "my-d-style")
+  (company-dcd-mode))
+
 (setq my-c-style-alist '((c-basic-offset . 4)))
 (c-add-style "my-c-style" (cons "k&r" my-c-style-alist))
 (c-add-style "my-c++-style" (cons "stroustrup" my-c-style-alist))
+(c-add-style "my-d-style" (cons "bsd" my-c-style-alist))
 
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 (add-hook 'c-mode-hook 'my-c-mode-hook)
@@ -32,7 +37,11 @@
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 (add-hook 'c++-mode-hook 'my-rtags-setup-hook)
 
-(use-package cmake-mode)
+(use-package d-mode
+  :hook (d-mode . my-d-mode-hook))
+
+(use-package company-dcd
+  :after (company d-mode))
 
 (use-package rtags
   :defines rtags-use-helm

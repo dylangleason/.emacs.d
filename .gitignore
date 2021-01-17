@@ -3,6 +3,7 @@
 *.dat
 *.elc
 *.bak
+*.backup
 .lsp*
 .mc-lists.el
 .org*
