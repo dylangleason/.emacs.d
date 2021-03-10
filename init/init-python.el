@@ -1,12 +1,10 @@
 (use-package python
-  :defines (flycheck-mode
-            flycheck-disabled-checkers
-            flycheck-python-flake8-executable)
+  :defines (flycheck-mode flycheck-disabled-checkers)
   :hook (python-mode . flycheck-mode)
   :init
-  (setq flycheck-python-flake8-executable "~/.pyenv/shims/python")
-  (setq-default flycheck-disabled-checkers '(python-pylint))
-  :interpreter ("python" . python-mode)
+  (setq flycheck-disabled-checkers '(python-pylint)
+        python-shell-interpreter "ipython"
+        python-shell-interpreter-args "--simple-prompt -c exec('__import__(\\'readline\\')') -i")
   :mode ("\\.py\\'" . python-mode))
 
 (use-package py-test
@@ -14,15 +12,13 @@
 
 (use-package elpy
   :defer t
+  :defines (elpy-shell-echo-output)
   :init
+  (setq elpy-shell-echo-output nil)
   (advice-add 'python-mode :before 'elpy-enable))
 
-(use-package pipenv
-  :defines (pipenv-projectile-after-switch-function)
-  :hook (python-mode . pipenv-mode)
-  :init
-  (setq pipenv-projectile-after-switch-function
-        #'pipenv-projectile-after-switch-extended))
+(use-package poetry
+  :after (python))
 
 (use-package hy-mode
   :after (python)

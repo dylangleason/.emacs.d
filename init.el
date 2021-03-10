@@ -32,7 +32,7 @@
 (global-font-lock-mode 1)
 (global-prettify-symbols-mode 1)
 
-(when (string-match "26" emacs-version)
+(when (>= (string-to-number emacs-version) 26)
   (add-hook 'prog-mode-hook 'display-line-numbers-mode))
 
 ;;; Set global keybindings
