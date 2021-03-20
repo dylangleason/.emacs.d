@@ -4,6 +4,8 @@
 *.elc
 *.bak
 *.backup
+.dap-breakpoints
+.extension
 .lsp*
 .mc-lists.el
 .org*

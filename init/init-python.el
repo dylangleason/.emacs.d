@@ -1,9 +1,13 @@
 (use-package python
-  :defines (flycheck-mode flycheck-disabled-checkers)
-  :hook (python-mode . flycheck-mode)
+  :defines (flycheck-mode
+            flycheck-disabled-checkers
+            python-shell-interpreter
+            python-shell-interpreter-args)
+  :hook (python-mode . (lambda ()
+                         (setq-local flycheck-disabled-checkers '(python-pylint))
+                         (flycheck-mode)))
   :init
-  (setq flycheck-disabled-checkers '(python-pylint)
-        python-shell-interpreter "ipython"
+  (setq python-shell-interpreter "ipython"
         python-shell-interpreter-args "--simple-prompt -c exec('__import__(\\'readline\\')') -i")
   :mode ("\\.py\\'" . python-mode))
 
