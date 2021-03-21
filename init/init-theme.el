@@ -7,9 +7,8 @@
   (autoload 'color-theme-approximate-on "color-theme-approximate")
   (color-theme-approximate-on))
 
-(use-package color-theme-sanityinc-tomorrow
-  :config
-  (load-theme 'sanityinc-tomorrow-night t nil))
+(use-package base16-theme)
+(use-package color-theme-sanityinc-tomorrow)
 
 (defvar my-projectile-mode-line
   '(:propertize
