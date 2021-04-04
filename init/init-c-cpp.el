@@ -49,10 +49,6 @@
   :init
   (setq rtags-use-helm t)
   :config
-  (unless (rtags-executable-find "rc")
-    (warn "rc is not installed"))
-  (unless (rtags-executable-find "rdm")
-    (warn "rdm is not installed"))
   (rtags-enable-standard-keybindings))
 
 (use-package helm-rtags

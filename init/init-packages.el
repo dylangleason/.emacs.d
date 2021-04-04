@@ -1,7 +1,5 @@
 (use-package company
   :hook (after-init . global-company-mode))
-(use-package company-lsp
-  :after (company lsp-mode))
 
 (use-package exec-path-from-shell
   :if (memq system-type '(darwin gnu/linux))
@@ -15,13 +13,6 @@
 (use-package flycheck-inline)
 
 (use-package graphviz-dot-mode)
-
-(use-package guix
-  :if (and (eq system-type 'gnu/linux)
-           (file-exists-p "~/.guix-profile"))
-  :config
-  (exec-path-from-shell-copy-env "GUIX_LOCPATH")
-  (exec-path-from-shell-copy-env "GUIX_PROFILE"))
 
 (use-package lsp-mode)
 (use-package lsp-treemacs
@@ -49,6 +40,8 @@
   (vterm-mode . (lambda () (setq-local line-spacing nil)))
   :config
   (set-terminal-coding-system 'utf-8))
+
+(use-package nix-mode)
 
 (use-package org-present)
 
