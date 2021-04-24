@@ -9,6 +9,9 @@
   :config
   (exec-path-from-shell-initialize))
 
+(use-package info-colors
+  :hook (Info-selection . info-colors-fontify-node))
+
 (use-package flycheck)
 (use-package flycheck-inline)
 
