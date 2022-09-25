@@ -1,24 +1,27 @@
 (use-package go-mode
-  :defines (gofmt-command flycheck-mode whitespace-style)
-  :init
-  (setq gofmt-command "goimports")
+  :defines (flycheck-mode
+            whitespace-style
+            lsp-deferred
+            lsp-format-buffer
+            lsp-organize-imports)
   :hook
   ((go-mode . (lambda ()
+                (rainbow-delimiters-mode-enable)
                 (flycheck-mode)
                 (setq-local indent-tabs-mode t)
                 (setq-local whitespace-style '(empty lines-tail trailing))
-                (lsp)))
-   (before-save . gofmt-before-save)))
-
-(use-package company-go
-  :after (company go-mode)
-  :defines company-backends
-  :config
-  (eval-after-load 'company
-    '(add-to-list 'company-backends 'company-go)))
+                (setq lsp-go-env '((GOFLAGS . "--tags=wireinject")))
+                (yas-minor-mode)
+                (lsp-deferred)))
+   (before-save . lsp-format-buffer)
+   (before-save . lsp-organize-imports)))
 
 (use-package go-rename
   :after (go-mode))
+
+(use-package dap-go
+  :after (go-mode)
+  :ensure nil)
 
 (use-package gotest
   :after (go-mode))

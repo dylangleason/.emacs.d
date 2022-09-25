@@ -9,6 +9,10 @@
 (use-package helm-ag
   :after (helm))
 
+(use-package swiper-helm
+  :after (helm)
+  :bind (("C-s" . swiper-helm)))
+
 (use-package helm-dash
   :after (helm)
   :init (setq dash-browser-func 'eww))
@@ -19,7 +23,8 @@
 (use-package helm-projectile
   :after (helm projectile)
   :config
-  (helm-projectile-on))
+  (helm-projectile-on)
+  :demand t)
 
 (use-package helm-flx
   :config (helm-flx-mode +1)

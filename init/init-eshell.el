@@ -22,9 +22,13 @@
      (run-this-in-eshell "clear 1")))
   (paredit-mode t))
 
-(add-hook 'eshell-mode-hook 'my-eshell-mode-hook)
+(use-package eshell
+  :ensure nil
+  :hook (eshell-mode . my-eshell-mode-hook))
 
 (use-package eshell-git-prompt
+  :demand t
+  :after (eshell)
   :config (eshell-git-prompt-use-theme 'robbyrussell))
 
 (provide 'init-eshell)

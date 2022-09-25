@@ -1,5 +1,6 @@
 (use-package scheme
-  :hook (scheme-mode . my-lisp-mode-common-hook))
+  :hook (scheme-mode . my-lisp-mode-common-hook)
+  :ensure nil)
 
 (use-package geiser
   :after (scheme paredit)

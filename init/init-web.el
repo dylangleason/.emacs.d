@@ -9,9 +9,15 @@
 (use-package haml-mode)
 
 (use-package restclient
-  :config
-  (add-to-list 'auto-mode-alist '("\\.http\\'" . restclient-mode)))
+  :mode ("\\.http\\'" . restclient-mode))
 
-(use-package restclient-helm :after (restclient))
+(use-package restclient-helm
+  :after (restclient))
+
+(use-package restclient-test
+  :after (restclient))
+
+(use-package uuid
+  :demand t)
 
 (provide 'init-web)

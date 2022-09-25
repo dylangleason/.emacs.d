@@ -15,7 +15,6 @@
   :after (python))
 
 (use-package elpy
-  :defer t
   :defines (elpy-shell-echo-output)
   :init
   (setq elpy-shell-echo-output nil)
