@@ -20,6 +20,7 @@
   :after (flycheck))
 
 (use-package geiser-guile
+  :ensure nil
   :hook (geiser-repl-mode . my-lisp-mode-common-hook))
 
 (use-package go-mode

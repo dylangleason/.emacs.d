@@ -75,8 +75,6 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
-(use-package guix)
-
 (use-package magit)
 
 (use-package marginalia
@@ -115,6 +113,7 @@
   (vertico-buffer-mode))
 
 (use-package vterm
+  :ensure nil
   :bind (("C-c t" . vterm)))
 
 (load (concat user-emacs-directory "lang"))
