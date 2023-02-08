@@ -9,5 +9,3 @@
     (funcall mode -1)))
 
 (setq inhibit-startup-message t)
-
-(message "Early init loaded!")

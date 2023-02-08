@@ -21,11 +21,12 @@ elpy
 eshell
 eww-bookmarks
 help
-lisp
 projectile*
 recentf
 request
 session.*
+quelpa
+site-lisp
 tramp
 transient
 url

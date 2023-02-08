@@ -47,6 +47,21 @@
   (setq use-package-always-defer t)
   (setq use-package-always-ensure t))
 
+;; Use quelpa to manage source-only packages
+(use-package quelpa
+  :demand t)
+
+(use-package quelpa-use-package
+  :after quelpa)
+
+(require 'quelpa-use-package)
+
+(use-package embark
+  :ensure t
+  :bind
+  (("C-c C-." . embark-act)
+   ("C-c C-;" . embark-dwim)))
+
 (use-package evil
   :after undo-tree
   :demand t
@@ -62,6 +77,7 @@
 		  flycheck-error-list-mode
 		  help-mode
 		  Info-mode
+		  messages-buffer-mode
 		  minibuffer-mode
 		  vterm-mode
 		  xref--xref-buffer-mode))
@@ -81,8 +97,14 @@
   :init
   (marginalia-mode))
 
-(when (version< emacs-version "28")
-  (use-package modus-themes))
+(when-let ((mood-line-path (concat user-emacs-directory "site-lisp/mood-line")))
+  (when (file-exists-p mood-line-path)
+    (add-to-list 'load-path mood-line-path)
+    (use-package mood-line
+      :ensure nil
+      :demand t
+      :config
+      (mood-line-mode))))
 
 (use-package orderless
   :custom
@@ -97,6 +119,11 @@
   :demand t
   :init
   (setq projectile-require-project-root t))
+
+(use-package projectile-ripgrep
+  :after (projectile ripgrep))
+
+(use-package ripgrep)
 
 (use-package undo-tree
   :init
@@ -113,7 +140,6 @@
   (vertico-buffer-mode))
 
 (use-package vterm
-  :ensure nil
   :bind (("C-c t" . vterm)))
 
 (load (concat user-emacs-directory "lang"))
